@@ -1,6 +1,10 @@
 #include <bits/stdc++.h>
+#include <fstream>
 #include "bmplib.cpp"
+#include "bmplib.h"
+#include "main.cpp"
 using namespace std;
+unsigned char imageBMP[256][256];
 void displayChoices(){
     cout<<"1- Black & White Filter\n "
           "2- Invert Colors\n "
@@ -20,16 +24,19 @@ void displayChoices(){
           "s- Save The New Image \n "
           "0- Exit \n";
 }
-
 void loadImage(){
-    string fileName;
+    char fileName[100];
+    cout<<"Please enter the image file name to process\n";
     cin>>fileName;
-    fileName += ".bmp";
-    
-
+    strcat(fileName,".bmp");
+    readGSBMP(fileName,imageBMP);
 }
 void saveImage(){
-
+    char newFileName[100];
+    cout<<"Enter the new file name\n";
+    cin>>newFileName;
+    strcat(newFileName,".bmp");
+    writeGSBMP(newFileName,imageBMP);
 }
 void InvertImage(){
 
@@ -46,19 +53,12 @@ void ShuffleImage(){
 void SkewHorizontally(){
 
 }
-int main() {
-    string fileName, mergeFile;
-    char initialChoice,choice;
-    cout<<"Hello,\n Please enter the image file name to process\n";
-    cin>>fileName;
-    cout<<"Please select any option:\n";
-    displayChoices();
-    cin >> initialChoice;
-//    while(initialChoice){
+void switchCase(char initialChoice){
     switch (initialChoice){
         case 1: ;
             break;
-        case 2: ;
+        case 2:
+            InvertImage();
             break;
         case 3:
             cout<<"Please enter the image file name to merge:\n";
@@ -74,6 +74,7 @@ int main() {
             }
             break;
         case 5:
+            RotateImage();
             cout<<"Flip (d)arken or (l)ighten? \n";
             cin>>choice;
             if(choice=='d'){
@@ -90,6 +91,7 @@ int main() {
         case 7: ;
             break;
         case 8:
+            EnlargeImage();
             cout<<"Which quarter to enlarge 1, 2, 3, 4? \n";
             cin>>choice;
             if(choice=='h'){
@@ -117,6 +119,7 @@ int main() {
             };
             break;
         case 'b':
+            ShuffleImage();
             cout<<"New order of quarters? \n";
             cin>>choice;
             if(choice=='h'){
@@ -137,6 +140,7 @@ int main() {
             };
             break;
         case 'e':
+            SkewHorizontally();
             cout<<"Please enter degree to skew right: \n";
             cin>>choice;
             if(choice=='h'){
@@ -166,4 +170,15 @@ int main() {
         case 0:;
             break;
     }
+}
+
+    string fileName, mergeFile;
+char initialChoice,choice;
+    cout<<"Hello,\n ";
+    cin>>fileName;
+    cout<<"Please select any option:\n";
+    displayChoices();
+    cin >> initialChoice;
+//    while(initialChoice){
+
 //    }
