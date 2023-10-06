@@ -1,8 +1,9 @@
 #include <bits/stdc++.h>
 #include <fstream>
 #include "bmplib.h"
+#include "Functions.h"
 using namespace std;
-unsigned char imageBMP[256][256];
+unsigned char imageBMP[SIZE][SIZE];
 void displayChoices(){
     cout<<"1- Black & White Filter\n "
           "2- Invert Colors\n "
@@ -148,6 +149,8 @@ void initChoice(char choice){
 //            break;
 //        case 'f':
 //            break;
-
+        case 's':
+            saveImage();
+            break;
     }
 }

@@ -13,7 +13,7 @@
 using namespace std;
 int main(){
     char choice;
-    cout<<"Hello";
+    cout<<"Hello ";
     loadImage();
     displayChoices();
     cin>>choice;
