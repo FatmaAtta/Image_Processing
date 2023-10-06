@@ -41,144 +41,119 @@ void saveImage(){
 void InvertImage(){
 
 }
-void RotateImage(){
+void Transpose(){
 
+}
+void BlackWhite(){
+    for(int i=0;i<256;i++){
+        for(int j=0;j<256;j++){
+            if(imageBMP[i][j] <128){
+                imageBMP[i][j]=0;
+            }else{
+                imageBMP[i][j]=255;
+            }
+        }
+    }
+}
+void Divide4(){
+
+}
+void Darken(){
+
+}
+void Lighten(){
+
+}
+void FlipImageVertically(){}
+void FlipImageHorizontally(){}
+void Rotate270(){
+    Transpose();
+    FlipImageVertically();
+}
+void RotateImage(int degree){
+    if(degree==90){
+        Rotate270();
+        FlipImageVertically();
+        FlipImageHorizontally();
+    }else if(degree==180){
+        FlipImageVertically();
+        FlipImageHorizontally();
+    }else if(degree==270){
+        Rotate270();
+
+    }
 }
 void EnlargeImage(){
-
+    Divide4();
 }
 void ShuffleImage(){
-
+    Divide4();
 }
 void SkewHorizontally(){
 
 }
-void switchCase(char initialChoice){
-    switch (initialChoice){
-        case 1: ;
+void initChoice(char choice){
+    switch (choice){
+        case 1:
+            BlackWhite();
             break;
         case 2:
             InvertImage();
             break;
         case 3:
-            cout<<"Please enter the image file name to merge:\n";
-            cin>>mergeFile;
+
             break;
         case 4:
+            char hv;
             cout<<"Flip (h)orizontally or (v)ertically? \n";
-            cin>>choice;
+            cin>>hv;
             if(choice=='h'){
-
+                FlipImageHorizontally();
             }else{
-
-            }
+                FlipImageVertically();
+            };
             break;
         case 5:
-            RotateImage();
-            cout<<"Flip (d)arken or (l)ighten? \n";
-            cin>>choice;
+            char dl;
+            cout<<"(d)arken or (l)ighten? \n";
+            cin>>dl;
             if(choice=='d'){
-
+                Darken();
             }else{
-
+                Lighten();
             };
             break;
         case 6:
-            cout<<"Flip (90) or (180) or (360)? \n";
-            cin>>choice;
-
+            int degree;
+            cout<<"Flip (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
+            cin>>degree;
+            RotateImage(degree);
             break;
-        case 7: ;
+        case 7:
             break;
         case 8:
             EnlargeImage();
-            cout<<"Which quarter to enlarge 1, 2, 3, 4? \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
         case 9:
-            cout<<"Shrink to (1/2) or (1/3) or (1/4)? \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
         case 'a':
-            cout<<"Mirror (l)eft or (r)ight or (u)p or (d)own side? \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
         case 'b':
             ShuffleImage();
-            cout<<"New order of quarters? \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
-        case 'c': ;
+        case 'c':
             break;
         case 'd':
-            cout<<"Please enter x y l w: \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
         case 'e':
             SkewHorizontally();
-            cout<<"Please enter degree to skew right: \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
         case 'f':
-            cout<<"Please enter degree to skew up: \n";
-            cin>>choice;
-            if(choice=='h'){
-
-            }else{
-
-            };
             break;
-        case 's':
-            cout<<"Please enter new file name:\n";
-            cin>>choice;
-            if(choice=='h'){
 
-            }else{
-
-            };
-            break;
-        case 0:;
-            break;
     }
 }
 
-    string fileName, mergeFile;
-char initialChoice,choice;
-    cout<<"Hello,\n ";
-    cin>>fileName;
-    cout<<"Please select any option:\n";
-    displayChoices();
-    cin >> initialChoice;
-//    while(initialChoice){
+
 
 //    }

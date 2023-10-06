@@ -11,8 +11,17 @@
 #include "bmplib.cpp"
 #include "Functions.cpp"
 using namespace std;
+char choice;
 int main(){
-
-
+    cout<<"Hello";
+    loadImage();
+    displayChoices();
+    cin>>choice;
+    initChoice(choice);
+    while(choice){
+        displayChoices();
+        cin>>choice;
+        initChoice(choice);
+    }
     return 0;
 }
