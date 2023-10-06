@@ -8,11 +8,11 @@
 //Reham Fawzy 20220141
 #include <fstream>
 #include <bits/stdc++.h>
-#include "bmplib.cpp"
-#include "Functions.cpp"
+#include "bmplib.h"
+#include "Functions.h"
 using namespace std;
-char choice;
 int main(){
+    char choice;
     cout<<"Hello";
     loadImage();
     displayChoices();

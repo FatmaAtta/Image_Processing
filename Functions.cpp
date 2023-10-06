@@ -1,8 +1,6 @@
 #include <bits/stdc++.h>
 #include <fstream>
-#include "bmplib.cpp"
 #include "bmplib.h"
-#include "main.cpp"
 using namespace std;
 unsigned char imageBMP[256][256];
 void displayChoices(){
@@ -97,63 +95,59 @@ void initChoice(char choice){
         case 1:
             BlackWhite();
             break;
-        case 2:
-            InvertImage();
-            break;
-        case 3:
-
+//        case 2:
+//            InvertImage();
+//            break;
+//        case 3:
+//
             break;
         case 4:
             char hv;
             cout<<"Flip (h)orizontally or (v)ertically? \n";
             cin>>hv;
-            if(choice=='h'){
-                FlipImageHorizontally();
-            }else{
-                FlipImageVertically();
-            };
+//            if(hv=='h'){
+//                FlipImageHorizontally();
+//            }else{
+//                FlipImageVertically();
+//            };
             break;
         case 5:
             char dl;
             cout<<"(d)arken or (l)ighten? \n";
             cin>>dl;
-            if(choice=='d'){
-                Darken();
-            }else{
-                Lighten();
-            };
+//            if(dl=='d'){
+//                Darken();
+//            }else{
+//                Lighten();
+//            };
             break;
         case 6:
             int degree;
             cout<<"Flip (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
             cin>>degree;
-            RotateImage(degree);
-            break;
-        case 7:
-            break;
-        case 8:
-            EnlargeImage();
-            break;
-        case 9:
-            break;
-        case 'a':
-            break;
-        case 'b':
-            ShuffleImage();
-            break;
-        case 'c':
-            break;
-        case 'd':
-            break;
-        case 'e':
-            SkewHorizontally();
-            break;
-        case 'f':
-            break;
+//            RotateImage(degree);
+//            break;
+//        case 7:
+//            break;
+//        case 8:
+//            EnlargeImage();
+//            break;
+//        case 9:
+//            break;
+//        case 'a':
+//            break;
+//        case 'b':
+//            ShuffleImage();
+//            break;
+//        case 'c':
+//            break;
+//        case 'd':
+//            break;
+//        case 'e':
+//            SkewHorizontally();
+//            break;
+//        case 'f':
+//            break;
 
     }
 }
-
-
-
-//    }

@@ -52,12 +52,14 @@ build cmake_object_order_depends_target_Image_Processing: phony || CMakeFiles/Im
 build CMakeFiles/Image_Processing.dir/main.cpp.obj: CXX_COMPILER__Image_Processing_unscanned_Debug D$:/GitHub/Image_Processing/main.cpp || cmake_object_order_depends_target_Image_Processing
   DEP_FILE = CMakeFiles\Image_Processing.dir\main.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -ID:/GitHub/Image_Processing
   OBJECT_DIR = CMakeFiles\Image_Processing.dir
   OBJECT_FILE_DIR = CMakeFiles\Image_Processing.dir
 
 build CMakeFiles/Image_Processing.dir/Functions.cpp.obj: CXX_COMPILER__Image_Processing_unscanned_Debug D$:/GitHub/Image_Processing/Functions.cpp || cmake_object_order_depends_target_Image_Processing
   DEP_FILE = CMakeFiles\Image_Processing.dir\Functions.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -ID:/GitHub/Image_Processing
   OBJECT_DIR = CMakeFiles\Image_Processing.dir
   OBJECT_FILE_DIR = CMakeFiles\Image_Processing.dir
 
@@ -78,6 +80,38 @@ build Image_Processing.exe: CXX_EXECUTABLE_LINKER__Image_Processing_Debug CMakeF
   TARGET_FILE = Image_Processing.exe
   TARGET_IMPLIB = libImage_Processing.dll.a
   TARGET_PDB = Image_Processing.exe.dbg
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target ImageToBitMap
+
+
+#############################################
+# Order-only phony target for ImageToBitMap
+
+build cmake_object_order_depends_target_ImageToBitMap: phony || CMakeFiles/ImageToBitMap.dir
+
+build CMakeFiles/ImageToBitMap.dir/bmplib.cpp.obj: CXX_COMPILER__ImageToBitMap_unscanned_Debug D$:/GitHub/Image_Processing/bmplib.cpp || cmake_object_order_depends_target_ImageToBitMap
+  DEP_FILE = CMakeFiles\ImageToBitMap.dir\bmplib.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -ID:/GitHub/Image_Processing
+  OBJECT_DIR = CMakeFiles\ImageToBitMap.dir
+  OBJECT_FILE_DIR = CMakeFiles\ImageToBitMap.dir
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target ImageToBitMap
+
+
+#############################################
+# Link the static library libImageToBitMap.a
+
+build libImageToBitMap.a: CXX_STATIC_LIBRARY_LINKER__ImageToBitMap_Debug CMakeFiles/ImageToBitMap.dir/bmplib.cpp.obj
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = CMakeFiles\ImageToBitMap.dir
+  POST_BUILD = cd .
+  PRE_LINK = cd .
+  TARGET_FILE = libImageToBitMap.a
+  TARGET_PDB = ImageToBitMap.a.dbg
 
 
 #############################################
@@ -105,6 +139,8 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 # =============================================================================
 # Target aliases.
 
+build ImageToBitMap: phony libImageToBitMap.a
+
 build Image_Processing: phony Image_Processing.exe
 
 # =============================================================================
@@ -115,7 +151,7 @@ build Image_Processing: phony Image_Processing.exe
 #############################################
 # Folder: D:/GitHub/Image_Processing/cmake-build-debug
 
-build all: phony Image_Processing.exe
+build all: phony Image_Processing.exe libImageToBitMap.a
 
 # =============================================================================
 # Built-in targets
