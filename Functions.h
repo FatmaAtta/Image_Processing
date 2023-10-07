@@ -18,7 +18,7 @@ void FlipImageVertically();
 void FlipImageHorizontally();
 void Rotate270();
 void RotateImage(int degree);
-void EnlargeImage();
+void EnlargeImage(int degree);
 void ShuffleImage();
 void SkewHorizontally();
 void initChoice(char choice);

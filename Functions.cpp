@@ -4,6 +4,11 @@
 #include "Functions.h"
 using namespace std;
 unsigned char imageBMP[SIZE][SIZE];
+unsigned char imageT[SIZE][SIZE];
+unsigned char q1[SIZE/2][SIZE/2];
+unsigned char q2[SIZE/2][SIZE/2];
+unsigned char q3[SIZE/2][SIZE/2];
+unsigned char q4[SIZE/2][SIZE/2];
 void displayChoices(){
     cout<<" 1- Black & White Filter\n "
           "2- Invert Colors\n "
@@ -57,8 +62,13 @@ void InvertImage(){
         }
     }
 }
-void Transpose(){
 
+void Transpose(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            imageT[i][j]=imageBMP[j][i];
+        }
+    }
 }
 void BlackWhite(){
     for(int i=0;i<SIZE;i++){
@@ -72,7 +82,22 @@ void BlackWhite(){
     }
 }
 void Divide4(){
-
+    for(int i =0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            if(i<(SIZE/2)&&j<(SIZE/2)){
+                q1[i][j]=imageBMP[i][j];
+            }
+            else if(i<(SIZE/2)&&j>=(SIZE/2)){
+                q2[i][j]= imageBMP[i][j];
+            }
+            else if(i>=(SIZE/2)&&j<(SIZE/2)){
+                q3[i][j]= imageBMP[i][j];
+            }
+            else if(i>=(SIZE/2)&&j>=(SIZE/2)){
+                q4[i][j]= imageBMP[i][j];
+            }
+        }
+    }
 }
 void Darken(){
 
@@ -99,8 +124,38 @@ void RotateImage(int degree){
 
     }
 }
-void EnlargeImage(){
+void EnlargeImage(int quarter){
     Divide4();
+    switch(quarter){
+        case 1:
+            for(int i =0;i<SIZE;i++){
+                for(int j=0;j<SIZE;j++){
+                    imageBMP[i][j]=q1[i/2][j/2];
+                }
+            }
+            break;
+        case 2:
+            for(int i =0;i<SIZE;i++){
+                for(int j=0;j<SIZE;j++){
+                    imageBMP[i][j]=q2[i/2][j/2];
+                }
+            }
+            break;
+        case 3:
+            for(int i =0;i<SIZE;i++){
+                for(int j=0;j<SIZE;j++){
+                    imageBMP[i][j]=q3[i/2][j/2];
+                }
+            }
+            break;
+        case 4:
+            for(int i =0;i<SIZE;i++){
+                for(int j=0;j<SIZE;j++){
+                    imageBMP[i][j]=q4[i/2][j/2];
+                }
+            }
+            break;
+    }
 }
 void ShuffleImage(){
     Divide4();
@@ -130,6 +185,12 @@ void initChoice(char choice){
 //            };
             break;
         case '5':
+            int degree;
+            cout<<"Flip (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
+            cin>>degree;
+//            RotateImage(degree);
+//            break;
+        case '6':
             char dl;
             cout<<"(d)arken or (l)ighten? \n";
             cin>>dl;
@@ -139,17 +200,14 @@ void initChoice(char choice){
 //                Lighten();
 //            };
             break;
-        case '6':
-            int degree;
-            cout<<"Flip (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
-            cin>>degree;
-//            RotateImage(degree);
 //            break;
 //        case '7':
-//            break;
-//        case '8':
-//            EnlargeImage();
-//            break;
+        case '8':
+            int quarter;
+            cout<<"Enlarge quarter 1, 2, 3, or 4?\n";
+            cin>>quarter;
+            EnlargeImage(quarter);
+            break;
 //        case '9':
 //            break;
 //        case 'a':
