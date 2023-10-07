@@ -5,7 +5,7 @@
 using namespace std;
 unsigned char imageBMP[SIZE][SIZE];
 void displayChoices(){
-    cout<<"1- Black & White Filter\n "
+    cout<<" 1- Black & White Filter\n "
           "2- Invert Colors\n "
           "3- Merge Two Images\n "
           "4- Flip Image \n "
@@ -23,30 +23,47 @@ void displayChoices(){
           "s- Save The New Image \n "
           "0- Exit \n";
 }
+void PrintArray(){
+        for(int i=0;i<SIZE;i++){
+            for(int j=0;j<SIZE;j++){
+                cout<<imageBMP[i][j]<<" ";
+            }
+            cout<<"\n";
+        }
+}
+
 void loadImage(){
     char fileName[100];
+    char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
     cout<<"Please enter the image file name to process\n";
     cin>>fileName;
-    strcat(fileName,".bmp");
-    readGSBMP(fileName,imageBMP);
+    strcat(basePath,fileName);
+    strcat(basePath,".bmp");
+    readGSBMP(basePath,imageBMP);
 }
 void saveImage(){
     char newFileName[100];
+    char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
     cout<<"Enter the new file name\n";
     cin>>newFileName;
-    strcat(newFileName,".bmp");
-    writeGSBMP(newFileName,imageBMP);
+    strcat(basePath,newFileName);
+    strcat(basePath,".bmp");
+    writeGSBMP(basePath,imageBMP);
 }
 void InvertImage(){
-
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            imageBMP[i][j]=255-imageBMP[i][j];
+        }
+    }
 }
 void Transpose(){
 
 }
 void BlackWhite(){
-    for(int i=0;i<256;i++){
-        for(int j=0;j<256;j++){
-            if(imageBMP[i][j] <128){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            if(imageBMP[i][j] <127){
                 imageBMP[i][j]=0;
             }else{
                 imageBMP[i][j]=255;
@@ -93,16 +110,16 @@ void SkewHorizontally(){
 }
 void initChoice(char choice){
     switch (choice){
-        case 1:
+        case '1':
             BlackWhite();
             break;
-//        case 2:
-//            InvertImage();
-//            break;
-//        case 3:
+        case '2':
+            InvertImage();
+            break;
+//        case '3':
 //
             break;
-        case 4:
+        case '4':
             char hv;
             cout<<"Flip (h)orizontally or (v)ertically? \n";
             cin>>hv;
@@ -112,7 +129,7 @@ void initChoice(char choice){
 //                FlipImageVertically();
 //            };
             break;
-        case 5:
+        case '5':
             char dl;
             cout<<"(d)arken or (l)ighten? \n";
             cin>>dl;
@@ -122,18 +139,18 @@ void initChoice(char choice){
 //                Lighten();
 //            };
             break;
-        case 6:
+        case '6':
             int degree;
             cout<<"Flip (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
             cin>>degree;
 //            RotateImage(degree);
 //            break;
-//        case 7:
+//        case '7':
 //            break;
-//        case 8:
+//        case '8':
 //            EnlargeImage();
 //            break;
-//        case 9:
+//        case '9':
 //            break;
 //        case 'a':
 //            break;

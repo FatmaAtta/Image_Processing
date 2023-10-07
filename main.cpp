@@ -15,10 +15,11 @@ int main(){
     char choice;
     cout<<"Hello ";
     loadImage();
+//    PrintArray();
     displayChoices();
     cin>>choice;
     initChoice(choice);
-    while(choice){
+    while(choice!='0'){
         displayChoices();
         cin>>choice;
         initChoice(choice);

@@ -6,6 +6,7 @@
 #define IMAGE_PROCESSING_FUNCTIONS_H
 void displayChoices();
 void loadImage();
+void PrintArray();
 void saveImage();
 void BlackWhite();
 void InvertImage();
