@@ -5,13 +5,14 @@
 #ifndef IMAGE_PROCESSING_FUNCTIONS_H
 #define IMAGE_PROCESSING_FUNCTIONS_H
 void displayChoices();
-void loadImage();
+void loadImage(char fileName[100]);
 void PrintArray();
 void saveImage();
 void BlackWhite();
 void InvertImage();
 void Transpose();
 void Divide4();
+void MergeImage();
 void Darken();
 void Lighten();
 void FlipImageVertically();

@@ -6,7 +6,7 @@ using namespace std;
 unsigned char imageBMP[SIZE][SIZE];
 unsigned char OutputBMP[SIZE][SIZE];
 unsigned char imageT[SIZE][SIZE];
-unsigned char q1[SIZE/2][SIZE/2];
+unsigned char q1[SIZE/2][SIZE/2];   //2d array to store the image divided into quarters
 unsigned char q2[SIZE/2][SIZE/2];
 unsigned char q3[SIZE/2][SIZE/2];
 unsigned char q4[SIZE/2][SIZE/2];
@@ -38,11 +38,8 @@ void PrintArray(){
         }
 }
 
-void loadImage(){
-    char fileName[100];
+void loadImage(char fileName[100]){
     char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
-    cout<<"Please enter the image file name to process\n";
-    cin>>fileName;
     strcat(basePath,fileName);
     strcat(basePath,".bmp");
     readGSBMP(basePath,imageBMP);
@@ -99,6 +96,9 @@ void Divide4(){
             }
         }
     }
+}
+void MergeImage(){
+
 }
 void Darken(){
 

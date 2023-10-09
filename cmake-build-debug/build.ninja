@@ -70,6 +70,13 @@ build CMakeFiles/Image_Processing.dir/bmplib.cpp.obj: CXX_COMPILER__Image_Proces
   OBJECT_DIR = CMakeFiles\Image_Processing.dir
   OBJECT_FILE_DIR = CMakeFiles\Image_Processing.dir
 
+build CMakeFiles/Image_Processing.dir/RGB.cpp.obj: CXX_COMPILER__Image_Processing_unscanned_Debug D$:/GitHub/Image_Processing/RGB.cpp || cmake_object_order_depends_target_Image_Processing
+  DEP_FILE = CMakeFiles\Image_Processing.dir\RGB.cpp.obj.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  INCLUDES = -ID:/GitHub/Image_Processing
+  OBJECT_DIR = CMakeFiles\Image_Processing.dir
+  OBJECT_FILE_DIR = CMakeFiles\Image_Processing.dir
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Image_Processing
@@ -78,7 +85,7 @@ build CMakeFiles/Image_Processing.dir/bmplib.cpp.obj: CXX_COMPILER__Image_Proces
 #############################################
 # Link the executable Image_Processing.exe
 
-build Image_Processing.exe: CXX_EXECUTABLE_LINKER__Image_Processing_Debug CMakeFiles/Image_Processing.dir/main.cpp.obj CMakeFiles/Image_Processing.dir/Functions.cpp.obj CMakeFiles/Image_Processing.dir/bmplib.cpp.obj
+build Image_Processing.exe: CXX_EXECUTABLE_LINKER__Image_Processing_Debug CMakeFiles/Image_Processing.dir/main.cpp.obj CMakeFiles/Image_Processing.dir/Functions.cpp.obj CMakeFiles/Image_Processing.dir/bmplib.cpp.obj CMakeFiles/Image_Processing.dir/RGB.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Image_Processing.dir
