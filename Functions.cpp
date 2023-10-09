@@ -4,6 +4,7 @@
 #include "Functions.h"
 using namespace std;
 unsigned char imageBMP[SIZE][SIZE];
+unsigned char OutputBMP[SIZE][SIZE];
 unsigned char imageT[SIZE][SIZE];
 unsigned char q1[SIZE/2][SIZE/2];
 unsigned char q2[SIZE/2][SIZE/2];
@@ -53,12 +54,12 @@ void saveImage(){
     cin>>newFileName;
     strcat(basePath,newFileName);
     strcat(basePath,".bmp");
-    writeGSBMP(basePath,imageBMP);
+    writeGSBMP(basePath,OutputBMP);
 }
 void InvertImage(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=255-imageBMP[i][j];
+            OutputBMP[i][j]=255-imageBMP[i][j];
         }
     }
 }
@@ -74,9 +75,9 @@ void BlackWhite(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
             if(imageBMP[i][j] <127){
-                imageBMP[i][j]=0;
+                OutputBMP[i][j]=0;
             }else{
-                imageBMP[i][j]=255;
+                OutputBMP[i][j]=255;
             }
         }
     }
@@ -88,13 +89,13 @@ void Divide4(){
                 q1[i][j]=imageBMP[i][j];
             }
             else if(i<(SIZE/2)&&j>=(SIZE/2)){
-                q2[i][j]= imageBMP[i][j];
+                q2[i][j-(SIZE/2)]= imageBMP[i][j];
             }
             else if(i>=(SIZE/2)&&j<(SIZE/2)){
-                q3[i][j]= imageBMP[i][j];
+                q3[i-(SIZE/2)][j]= imageBMP[i][j];
             }
             else if(i>=(SIZE/2)&&j>=(SIZE/2)){
-                q4[i][j]= imageBMP[i][j];
+                q4[i-(SIZE/2)][j-(SIZE/2)]= imageBMP[i][j];
             }
         }
     }
@@ -130,35 +131,109 @@ void EnlargeImage(int quarter){
         case 1:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q1[i/2][j/2];
+                    OutputBMP[i][j]=q1[i/2][j/2];
                 }
             }
             break;
         case 2:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q2[i/2][j/2];
+                    OutputBMP[i][j]=q2[i/2][j/2];
                 }
             }
             break;
         case 3:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q3[i/2][j/2];
+                    OutputBMP[i][j]=q3[i/2][j/2];
                 }
             }
             break;
         case 4:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q4[i/2][j/2];
+                    OutputBMP[i][j]=q4[i/2][j/2];
                 }
             }
             break;
     }
 }
 void ShuffleImage(){
+    int order[4];
+    cout<<"Enter the new order of quarters\n";
+    for(int i =0;i<4;i++){
+        cin>>order[i];
+    }
     Divide4();
+    for(int i =0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            if(i<(SIZE/2)&&j<(SIZE/2)){ //1st quarter
+                switch(order[0]){
+                    case 1:
+                        OutputBMP[i][j]=q1[i][j];
+                        break;
+                    case 2:
+                        OutputBMP[i][j]=q2[i][j];
+                        break;
+                    case 3:
+                        OutputBMP[i][j]=q3[i][j];
+                        break;
+                    case 4:
+                        OutputBMP[i][j]=q4[i][j];
+                        break;
+                }
+            }
+            else if(i<(SIZE/2)&&j>=(SIZE/2)){ //2nd quarter
+                switch(order[1]){
+                    case 1:
+                        OutputBMP[i][j]=q1[i][j-128];
+                        break;
+                    case 2:
+                        OutputBMP[i][j]=q2[i][j-128];
+                        break;
+                    case 3:
+                        OutputBMP[i][j]=q3[i][j-128];
+                        break;
+                    case 4:
+                        OutputBMP[i][j]=q4[i][j-128];
+                        break;
+                }
+            }
+            else if(i>=(SIZE/2)&&j<(SIZE/2)){ //3rd quarter
+                switch(order[2]){
+                    case 1:
+                        OutputBMP[i][j]=q1[i-128][j];
+                        break;
+                    case 2:
+                        OutputBMP[i][j]=q2[i-128][j];
+                        break;
+                    case 3:
+                        OutputBMP[i][j]=q3[i-128][j];
+                        break;
+                    case 4:
+                        OutputBMP[i][j]=q4[i-128][j];
+                        break;
+                }
+            }
+            else if(i>=(SIZE/2)&&j>=(SIZE/2)){ //4th quarter
+                switch(order[3]){
+                    case 1:
+                        OutputBMP[i][j]=q1[i-128][j-128];
+                        break;
+                    case 2:
+                        OutputBMP[i][j]=q2[i-128][j-128];
+                        break;
+                    case 3:
+                        OutputBMP[i][j]=q3[i-128][j-128];
+                        break;
+                    case 4:
+                        OutputBMP[i][j]=q4[i-128][j-128];
+                        break;
+                }
+            }
+        }
+    }
+
 }
 void SkewHorizontally(){
 
@@ -212,9 +287,9 @@ void initChoice(char choice){
 //            break;
 //        case 'a':
 //            break;
-//        case 'b':
-//            ShuffleImage();
-//            break;
+        case 'b':
+            ShuffleImage();
+            break;
 //        case 'c':
 //            break;
 //        case 'd':
