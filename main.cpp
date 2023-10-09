@@ -14,7 +14,6 @@ using namespace std;
 int main(){
     char choice;
     loadImage();
-//    PrintArray();
     displayChoices();
     cin>>choice;
     initChoice(choice);

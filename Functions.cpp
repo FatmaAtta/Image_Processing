@@ -3,12 +3,12 @@
 #include "bmplib.h"
 #include "Functions.h"
 using namespace std;
-unsigned char imageBMP[SIZE][SIZE];
-unsigned char mergeBMP[SIZE][SIZE];
-unsigned char OutputBMP[SIZE][SIZE];
+unsigned char imageBMP[SIZE][SIZE];  //the image to be processed
+unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
+unsigned char OutputBMP[SIZE][SIZE]; //the image after processing
 char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
-unsigned char imageT[SIZE][SIZE];
-unsigned char q1[SIZE/2][SIZE/2];   //2d array to store the image divided into quarters
+unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
+unsigned char q1[SIZE/2][SIZE/2];   //2d arrays to store the image divided into quarters
 unsigned char q2[SIZE/2][SIZE/2];
 unsigned char q3[SIZE/2][SIZE/2];
 unsigned char q4[SIZE/2][SIZE/2];
@@ -31,14 +31,7 @@ void displayChoices(){
           "s- Save The New Image \n "
           "0- Exit \n";
 }
-void PrintArray(){
-        for(int i=0;i<SIZE;i++){
-            for(int j=0;j<SIZE;j++){
-                cout<<imageBMP[i][j]<<" ";
-            }
-            cout<<"\n";
-        }
-}
+
 
 void loadImage(){
     char fileName[100];
@@ -51,7 +44,6 @@ void loadImage(){
 }
 void saveImage(){
     char newFileName[100];
-
     cout<<"Enter the new file name\n";
     cin>>newFileName;
     strcat(basePath,newFileName);
