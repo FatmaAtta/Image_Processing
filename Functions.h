@@ -5,7 +5,7 @@
 #ifndef IMAGE_PROCESSING_FUNCTIONS_H
 #define IMAGE_PROCESSING_FUNCTIONS_H
 void displayChoices();
-void loadImage(char fileName[100]);
+void loadImage();
 void PrintArray();
 void saveImage();
 void BlackWhite();

@@ -4,7 +4,9 @@
 #include "Functions.h"
 using namespace std;
 unsigned char imageBMP[SIZE][SIZE];
+unsigned char mergeBMP[SIZE][SIZE];
 unsigned char OutputBMP[SIZE][SIZE];
+char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
 unsigned char imageT[SIZE][SIZE];
 unsigned char q1[SIZE/2][SIZE/2];   //2d array to store the image divided into quarters
 unsigned char q2[SIZE/2][SIZE/2];
@@ -38,15 +40,18 @@ void PrintArray(){
         }
 }
 
-void loadImage(char fileName[100]){
+void loadImage(){
+    char fileName[100];
     char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
+    cout<<"Hello Please enter the image file name to process: \n";
+    cin>>fileName;
     strcat(basePath,fileName);
     strcat(basePath,".bmp");
     readGSBMP(basePath,imageBMP);
 }
 void saveImage(){
     char newFileName[100];
-    char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
+
     cout<<"Enter the new file name\n";
     cin>>newFileName;
     strcat(basePath,newFileName);
@@ -98,6 +103,18 @@ void Divide4(){
     }
 }
 void MergeImage(){
+    char mergeName[100];
+    cout<<"Please enter the name of image file to merge with:\n";
+    cin>>mergeName;
+    strcat(basePath,mergeName);
+    strcat(basePath,".bmp");
+    readGSBMP(basePath,mergeBMP);
+
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            OutputBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j])/2;
+        }
+    }
 
 }
 void Darken(){
@@ -246,8 +263,8 @@ void initChoice(char choice){
         case '2':
             InvertImage();
             break;
-//        case '3':
-//
+        case '3':
+            MergeImage();
             break;
         case '4':
             char hv;
@@ -304,3 +321,4 @@ void initChoice(char choice){
             break;
     }
 }
+

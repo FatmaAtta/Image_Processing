@@ -13,10 +13,7 @@
 using namespace std;
 int main(){
     char choice;
-    char fileName[100];
-    cout<<"Hello Please enter the image file name to process: \n";
-    cin>>fileName;
-    loadImage(fileName);
+    loadImage();
 //    PrintArray();
     displayChoices();
     cin>>choice;
