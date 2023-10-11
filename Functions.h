@@ -7,6 +7,7 @@
 void displayChoices();
 void loadImage();
 void PrintArray();
+void FlipToImage();
 void saveImage();
 void BlackWhite();
 void InvertImage();

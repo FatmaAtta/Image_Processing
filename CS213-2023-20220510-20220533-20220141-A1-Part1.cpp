@@ -6,6 +6,9 @@
 //Fatma Mahmoud Atta 20220510
 //Shahd Mohammed Ahmed 20220533
 //Reham Fawzy 20220141
+//fatmamaali@gmail.com
+//shahdelnassag@gmail.com
+//fwrymw@gmail.com
 #include <fstream>
 #include <bits/stdc++.h>
 #include "bmplib.h"

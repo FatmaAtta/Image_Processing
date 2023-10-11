@@ -5,13 +5,14 @@
 using namespace std;
 unsigned char imageBMP[SIZE][SIZE];  //the image to be processed
 unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
-unsigned char OutputBMP[SIZE][SIZE]; //the image after processing
+unsigned char flipBMP[SIZE][SIZE];  // the image that will be merged
 unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
 unsigned char q1[SIZE/2][SIZE/2];   //2d arrays to store the image divided into quarters
-unsigned char q2[SIZE/2][SIZE/2];
 unsigned char q3[SIZE/2][SIZE/2];
 unsigned char q4[SIZE/2][SIZE/2];
+unsigned char q2[SIZE/2][SIZE/2];
 char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
+//function to display the choices
 void displayChoices(){
     cout<<" 1- Black & White Filter\n "
           "2- Invert Colors\n "
@@ -38,9 +39,9 @@ void loadImage(){
     char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
     cout<<"Hello Please enter the image file name to process: \n";
     cin>>fileName;
-    strcat(basePath,fileName);
+    strcat(basePath,fileName); //concatenating the base path to the file name to the extension
     strcat(basePath,".bmp");
-    readGSBMP(basePath,imageBMP);
+    readGSBMP(basePath,imageBMP);   //loads the image into imageBMP 2d array
 }
 
 void saveImage(){
@@ -49,9 +50,9 @@ void saveImage(){
     cin>>newFileName;
     strcat(basePath,newFileName);
     strcat(basePath,".bmp");
-    writeGSBMP(basePath,imageBMP);
+    writeGSBMP(basePath,imageBMP); //saves the image in imageBMP 2d array
 }
-
+//function to invert the image colors
 void InvertImage(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -59,7 +60,7 @@ void InvertImage(){
         }
     }
 }
-
+//function used in the rotate function
 void Transpose(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -67,6 +68,7 @@ void Transpose(){
         }
     }
 }
+//function that turns the image into black and white
 void BlackWhite(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -78,6 +80,7 @@ void BlackWhite(){
         }
     }
 }
+//function that divides the image array into 4 quarters to be used in shuffle and enlarge and shrink filters
 void Divide4(){
     for(int i =0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -96,6 +99,7 @@ void Divide4(){
         }
     }
 }
+//function to merge 2 images together
 void MergeImage(){
     char mergeName[100];
     cout<<"Please enter the name of image file to merge with:\n";
@@ -106,44 +110,67 @@ void MergeImage(){
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            imageBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j])/2;
+            imageBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j])/2; //takes the average of the GS value of each pixel of the two images
         }
     }
 
 }
+//function that darkens the image by 50%
 void Darken(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=imageBMP[i][j]-imageBMP[i][j]/2;
+            imageBMP[i][j]=imageBMP[i][j]-imageBMP[i][j]/2; //darkens it by 50%
         }
     }
 }
+//function that lightens the image by 50%
 void Lighten(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=imageBMP[i][j]+imageBMP[i][j]/2;
+            imageBMP[i][j]=imageBMP[i][j]+imageBMP[i][j]/2; //lightens the image by 50%
         }
     }
 }
-void FlipImageVertically(){}
-void FlipImageHorizontally(){}
-void Rotate270(){
-    Transpose();
-    FlipImageVertically();
-}
-void RotateImage(int degree){
-    if(degree==90){
-        Rotate270();
-        FlipImageVertically();
-        FlipImageHorizontally();
-    }else if(degree==180){
-        FlipImageVertically();
-        FlipImageHorizontally();
-    }else if(degree==270){
-        Rotate270();
-
+//function that copies flipped image to the image array
+void FlipToImage(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            imageBMP[i][j]=flipBMP[i][j];
+        }
     }
 }
+void FlipImageVertically(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            flipBMP[i][j]=imageBMP[SIZE-i][j];
+        }
+    }
+    FlipToImage();
+}
+void FlipImageHorizontally(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            flipBMP[i][j]=imageBMP[i][SIZE-j];
+        }
+    }
+    FlipToImage();
+}
+//void Rotate270(){
+//    Transpose();
+//    FlipImageVertically();
+//}
+//void RotateImage(int degree){
+//    if(degree==90){
+//        Rotate270();
+//        FlipImageVertically();
+//        FlipImageHorizontally();
+//    }else if(degree==180){
+//        FlipImageVertically();
+//        FlipImageHorizontally();
+//    }else if(degree==270){
+//        Rotate270();
+//    }
+//}
 void EnlargeImage(int quarter){
     Divide4();
     switch(quarter){
@@ -287,11 +314,11 @@ void initChoice(char choice){
             char hv;
             cout<<"Flip (h)orizontally or (v)ertically? \n";
             cin>>hv;
-//            if(hv=='h'){
-//                FlipImageHorizontally();
-//            }else{
-//                FlipImageVertically();
-//            };
+            if(hv=='h'){
+                FlipImageHorizontally();
+            }else{
+                FlipImageVertically();
+            };
             break;
         case '5':
             char dl;
@@ -307,31 +334,33 @@ void initChoice(char choice){
             int degree;
             cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
             cin>>degree;
-//            RotateImage(degree);
-//            break;
-//            break;
-//        case '7':
+            RotateImage(degree);
+            break;
+            break;
+        case '7': //detect image edges
         case '8':
             int quarter;
             cout<<"Enlarge quarter 1, 2, 3, or 4?\n";
             cin>>quarter;
             EnlargeImage(quarter);
             break;
-//        case '9':
-//            break;
-//        case 'a':
+        case '9':
+            int sh;
+            //cout<<
+            break;
+//        case 'a': flip
 //            break;
         case 'b':
             ShuffleImage();
             break;
-//        case 'c':
+//        case 'c': blur
 //            break;
-//        case 'd':
+//        case 'd': crop
 //            break;
-//        case 'e':
+//        case 'e': skew right
 //            SkewHorizontally();
 //            break;
-//        case 'f':
+//        case 'f': skew up
 //            break;
         case 's':
             saveImage();
