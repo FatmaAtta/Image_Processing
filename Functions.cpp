@@ -110,10 +110,18 @@ void MergeImage(){
 
 }
 void Darken(){
-
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            OutputBMP[i][j]=imageBMP[i][j]-imageBMP[i][j]/2;
+        }
+    }
 }
 void Lighten(){
-
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            OutputBMP[i][j]=imageBMP[i][j]+imageBMP[i][j]/2;
+        }
+    }
 }
 void FlipImageVertically(){}
 void FlipImageHorizontally(){}
@@ -245,7 +253,22 @@ void ShuffleImage(){
 
 }
 void SkewHorizontally(){
-
+    //input the degree and convert to radian
+    //double mov=tan(rad)*256
+           // double step=mov/SIZE;
+        //    2d arr[size][size+mov]=we want the empty pixels to be white;
+//            for(int i to size){
+//                for(int j to size+mov){
+//                    2d arr[i][j+mov]=image[i][j];
+//
+//                }
+//mov-=step;
+//            }
+//            for(i to size){
+//                for(j to size){
+//                    image[i][j]=2d arr[i][j]
+//                }
+//            }
 }
 void initChoice(char choice){
     switch (choice){
@@ -269,21 +292,21 @@ void initChoice(char choice){
 //            };
             break;
         case '5':
-            int degree;
-            cout<<"Flip (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
-            cin>>degree;
-//            RotateImage(degree);
-//            break;
-        case '6':
             char dl;
             cout<<"(d)arken or (l)ighten? \n";
             cin>>dl;
-//            if(dl=='d'){
-//                Darken();
-//            }else{
-//                Lighten();
-//            };
+            if(dl=='d'){
+                Darken();
+            }else{
+                Lighten();
+            };
             break;
+        case '6':
+            int degree;
+            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
+            cin>>degree;
+//            RotateImage(degree);
+//            break;
 //            break;
 //        case '7':
         case '8':
