@@ -6,12 +6,12 @@ using namespace std;
 unsigned char imageBMP[SIZE][SIZE];  //the image to be processed
 unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
 unsigned char OutputBMP[SIZE][SIZE]; //the image after processing
-char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
 unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
 unsigned char q1[SIZE/2][SIZE/2];   //2d arrays to store the image divided into quarters
 unsigned char q2[SIZE/2][SIZE/2];
 unsigned char q3[SIZE/2][SIZE/2];
 unsigned char q4[SIZE/2][SIZE/2];
+char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
 void displayChoices(){
     cout<<" 1- Black & White Filter\n "
           "2- Invert Colors\n "
@@ -42,18 +42,20 @@ void loadImage(){
     strcat(basePath,".bmp");
     readGSBMP(basePath,imageBMP);
 }
+
 void saveImage(){
     char newFileName[100];
     cout<<"Enter the new file name\n";
     cin>>newFileName;
     strcat(basePath,newFileName);
     strcat(basePath,".bmp");
-    writeGSBMP(basePath,OutputBMP);
+    writeGSBMP(basePath,imageBMP);
 }
+
 void InvertImage(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            OutputBMP[i][j]=255-imageBMP[i][j];
+            imageBMP[i][j]=255-imageBMP[i][j];
         }
     }
 }
@@ -69,9 +71,9 @@ void BlackWhite(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
             if(imageBMP[i][j] <127){
-                OutputBMP[i][j]=0;
+                imageBMP[i][j]=0;
             }else{
-                OutputBMP[i][j]=255;
+                imageBMP[i][j]=255;
             }
         }
     }
@@ -104,7 +106,7 @@ void MergeImage(){
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            OutputBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j])/2;
+            imageBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j])/2;
         }
     }
 
@@ -112,14 +114,14 @@ void MergeImage(){
 void Darken(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            OutputBMP[i][j]=imageBMP[i][j]-imageBMP[i][j]/2;
+            imageBMP[i][j]=imageBMP[i][j]-imageBMP[i][j]/2;
         }
     }
 }
 void Lighten(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            OutputBMP[i][j]=imageBMP[i][j]+imageBMP[i][j]/2;
+            imageBMP[i][j]=imageBMP[i][j]+imageBMP[i][j]/2;
         }
     }
 }
@@ -148,28 +150,28 @@ void EnlargeImage(int quarter){
         case 1:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    OutputBMP[i][j]=q1[i/2][j/2];
+                    imageBMP[i][j]=q1[i/2][j/2];
                 }
             }
             break;
         case 2:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    OutputBMP[i][j]=q2[i/2][j/2];
+                    imageBMP[i][j]=q2[i/2][j/2];
                 }
             }
             break;
         case 3:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    OutputBMP[i][j]=q3[i/2][j/2];
+                    imageBMP[i][j]=q3[i/2][j/2];
                 }
             }
             break;
         case 4:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    OutputBMP[i][j]=q4[i/2][j/2];
+                    imageBMP[i][j]=q4[i/2][j/2];
                 }
             }
             break;
@@ -187,64 +189,64 @@ void ShuffleImage(){
             if(i<(SIZE/2)&&j<(SIZE/2)){ //1st quarter
                 switch(order[0]){
                     case 1:
-                        OutputBMP[i][j]=q1[i][j];
+                        imageBMP[i][j]=q1[i][j];
                         break;
                     case 2:
-                        OutputBMP[i][j]=q2[i][j];
+                        imageBMP[i][j]=q2[i][j];
                         break;
                     case 3:
-                        OutputBMP[i][j]=q3[i][j];
+                        imageBMP[i][j]=q3[i][j];
                         break;
                     case 4:
-                        OutputBMP[i][j]=q4[i][j];
+                        imageBMP[i][j]=q4[i][j];
                         break;
                 }
             }
             else if(i<(SIZE/2)&&j>=(SIZE/2)){ //2nd quarter
                 switch(order[1]){
                     case 1:
-                        OutputBMP[i][j]=q1[i][j-128];
+                        imageBMP[i][j]=q1[i][j-128];
                         break;
                     case 2:
-                        OutputBMP[i][j]=q2[i][j-128];
+                        imageBMP[i][j]=q2[i][j-128];
                         break;
                     case 3:
-                        OutputBMP[i][j]=q3[i][j-128];
+                        imageBMP[i][j]=q3[i][j-128];
                         break;
                     case 4:
-                        OutputBMP[i][j]=q4[i][j-128];
+                        imageBMP[i][j]=q4[i][j-128];
                         break;
                 }
             }
             else if(i>=(SIZE/2)&&j<(SIZE/2)){ //3rd quarter
                 switch(order[2]){
                     case 1:
-                        OutputBMP[i][j]=q1[i-128][j];
+                        imageBMP[i][j]=q1[i-128][j];
                         break;
                     case 2:
-                        OutputBMP[i][j]=q2[i-128][j];
+                        imageBMP[i][j]=q2[i-128][j];
                         break;
                     case 3:
-                        OutputBMP[i][j]=q3[i-128][j];
+                        imageBMP[i][j]=q3[i-128][j];
                         break;
                     case 4:
-                        OutputBMP[i][j]=q4[i-128][j];
+                        imageBMP[i][j]=q4[i-128][j];
                         break;
                 }
             }
             else if(i>=(SIZE/2)&&j>=(SIZE/2)){ //4th quarter
                 switch(order[3]){
                     case 1:
-                        OutputBMP[i][j]=q1[i-128][j-128];
+                        imageBMP[i][j]=q1[i-128][j-128];
                         break;
                     case 2:
-                        OutputBMP[i][j]=q2[i-128][j-128];
+                        imageBMP[i][j]=q2[i-128][j-128];
                         break;
                     case 3:
-                        OutputBMP[i][j]=q3[i-128][j-128];
+                        imageBMP[i][j]=q3[i-128][j-128];
                         break;
                     case 4:
-                        OutputBMP[i][j]=q4[i-128][j-128];
+                        imageBMP[i][j]=q4[i-128][j-128];
                         break;
                 }
             }
