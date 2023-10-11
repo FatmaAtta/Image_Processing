@@ -11,7 +11,7 @@ unsigned char q1[SIZE/2][SIZE/2];   //2d arrays to store the image divided into 
 unsigned char q3[SIZE/2][SIZE/2];
 unsigned char q4[SIZE/2][SIZE/2];
 unsigned char q2[SIZE/2][SIZE/2];
-char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
+char basePath[]="./Images/";
 //function to display the choices
 void displayChoices(){
     cout<<" 1- Black & White Filter\n "
@@ -330,13 +330,13 @@ void initChoice(char choice){
                 Lighten();
             };
             break;
-        case '6':
-            int degree;
-            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
-            cin>>degree;
-            RotateImage(degree);
-            break;
-            break;
+//        case '6':
+//            int degree;
+//            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
+//            cin>>degree;
+//            RotateImage(degree);
+//            break;
+//            break;
         case '7': //detect image edges
         case '8':
             int quarter;
