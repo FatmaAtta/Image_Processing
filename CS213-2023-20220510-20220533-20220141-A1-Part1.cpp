@@ -15,7 +15,9 @@
 #include "Functions.h"
 using namespace std;
 int main(){
-    char choice;
+    char choice,type;
+    cout<<"Do you want to process a (G)S or (R)GB image?\n ";
+    cin>>type;
     loadImage();
     displayChoices();
     cin>>choice;

@@ -5,7 +5,8 @@
 using namespace std;
 unsigned char imageBMP[SIZE][SIZE];  //the image to be processed
 unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
-unsigned char flipBMP[SIZE][SIZE];  // the image that will be merged
+unsigned char flipBMP[SIZE][SIZE];  // the image that will be flipped
+unsigned char shrinkBMP[SIZE][SIZE];  // the image that will be flipped
 unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
 unsigned char q1[SIZE/2][SIZE/2];   //2d arrays to store the image divided into quarters
 unsigned char q3[SIZE/2][SIZE/2];
@@ -33,7 +34,6 @@ void displayChoices(){
           "0- Exit \n";
 }
 
-
 void loadImage(){
     char fileName[100];
     char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
@@ -52,6 +52,13 @@ void saveImage(){
     strcat(basePath,".bmp");
     writeGSBMP(basePath,imageBMP); //saves the image in imageBMP 2d array
 }
+void WhiteBackground(unsigned char arr[SIZE][SIZE]){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            arr[i][j]=255;
+        }
+    }
+}
 //function to invert the image colors
 void InvertImage(){
     for(int i=0;i<SIZE;i++){
@@ -67,6 +74,7 @@ void Transpose(){
             imageT[i][j]=imageBMP[j][i];
         }
     }
+    ToImage(imageT);
 }
 //function that turns the image into black and white
 void BlackWhite(){
@@ -132,10 +140,10 @@ void Lighten(){
     }
 }
 //function that copies flipped image to the image array
-void FlipToImage(){
+void ToImage(unsigned char arr[SIZE][SIZE]){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=flipBMP[i][j];
+            imageBMP[i][j]=arr[i][j];
         }
     }
 }
@@ -145,7 +153,7 @@ void FlipImageVertically(){
             flipBMP[i][j]=imageBMP[SIZE-i][j];
         }
     }
-    FlipToImage();
+        ToImage(flipBMP);
 }
 void FlipImageHorizontally(){
     for(int i=0;i<SIZE;i++){
@@ -153,24 +161,24 @@ void FlipImageHorizontally(){
             flipBMP[i][j]=imageBMP[i][SIZE-j];
         }
     }
-    FlipToImage();
+    ToImage(flipBMP);
 }
-//void Rotate270(){
-//    Transpose();
-//    FlipImageVertically();
-//}
-//void RotateImage(int degree){
-//    if(degree==90){
-//        Rotate270();
-//        FlipImageVertically();
-//        FlipImageHorizontally();
-//    }else if(degree==180){
-//        FlipImageVertically();
-//        FlipImageHorizontally();
-//    }else if(degree==270){
-//        Rotate270();
-//    }
-//}
+void Rotate270(){
+    Transpose();
+    FlipImageVertically();
+}
+void RotateImage(int degree){
+    if(degree==90){
+        Rotate270();
+        FlipImageVertically();
+        FlipImageHorizontally();
+    }else if(degree==180){
+        FlipImageVertically();
+        FlipImageHorizontally();
+    }else if(degree==270){
+        Rotate270();
+    }
+}
 void EnlargeImage(int quarter){
     Divide4();
     switch(quarter){
@@ -203,6 +211,15 @@ void EnlargeImage(int quarter){
             }
             break;
     }
+}
+void Shrink(int sh){
+    WhiteBackground(shrinkBMP);
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            shrinkBMP[i/sh][j/sh]=(imageBMP[i][j]+imageBMP[i][j+1]+imageBMP[i+1][j]+imageBMP[i+1][j+1])/4;
+        }
+    }
+    ToImage(shrinkBMP);
 }
 void ShuffleImage(){
     int order[4];
@@ -330,13 +347,12 @@ void initChoice(char choice){
                 Lighten();
             };
             break;
-//        case '6':
-//            int degree;
-//            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
-//            cin>>degree;
-//            RotateImage(degree);
-//            break;
-//            break;
+        case '6':
+            int degree;
+            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
+            cin>>degree;
+            RotateImage(degree);
+            break;
         case '7': //detect image edges
         case '8':
             int quarter;
@@ -346,7 +362,9 @@ void initChoice(char choice){
             break;
         case '9':
             int sh;
-            //cout<<
+            cout<<"Shrink to half (2) or third (3) or quarter (4)?\n";
+            cin>>sh;
+            Shrink(sh);
             break;
 //        case 'a': flip
 //            break;
