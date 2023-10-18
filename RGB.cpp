@@ -160,10 +160,10 @@ void RGBMergeImage(){
 }
 //function that darkens the image by 50%
 void RGBDarken(){
-    for(int i=0;i<3;i++){
+    for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-
+            for(int k=0;k<3;k++){
+                imageRGBBMP[i][j][k]-=imageRGBBMP[i][j][k]/2;
             }
         }
     }
@@ -173,7 +173,7 @@ void RGBLighten(){
     for(int i=0;i<3;i++){
         for(int j=0;j<SIZE;j++){
             for(int k=0;k<SIZE;k++){
-
+                imageRGBBMP[i][j][k]+=imageRGBBMP[i][j][k]/2;
             }
         }
     }
@@ -181,9 +181,9 @@ void RGBLighten(){
 //function that copies flipped image to the image array
 
 void RGBFlipImageVertically(){
-    for(int i=0;i<3;i++){
+    for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
+            for(int k=0;k<3;k++){
 
             }
         }
