@@ -23,6 +23,4 @@ int writeGSBMP(const char* filename, unsigned char outputImage[][SIZE]);
 void showGSBMP(unsigned char inputImage[][SIZE]);
 
 
-
-
 #endif

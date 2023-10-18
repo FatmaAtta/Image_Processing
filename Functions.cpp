@@ -8,10 +8,11 @@ unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
 unsigned char flipBMP[SIZE][SIZE];  // the image that will be flipped
 unsigned char shrinkBMP[SIZE][SIZE];  // the image that will be flipped
 unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
-unsigned char q1[SIZE/2][SIZE/2];   //2d arrays to store the image divided into quarters
-unsigned char q3[SIZE/2][SIZE/2];
-unsigned char q4[SIZE/2][SIZE/2];
-unsigned char q2[SIZE/2][SIZE/2];
+unsigned char imageSkew[SIZE][SIZE];    //array to store the skewed image
+unsigned char q1[SIZE / 2][SIZE / 2];   //2d arrays to store the image divided into quarters
+unsigned char q3[SIZE / 2][SIZE / 2];
+unsigned char q4[SIZE / 2][SIZE / 2];
+unsigned char q2[SIZE / 2][SIZE / 2];
 char basePath[]="./Images/";
 //function to display the choices
 void displayChoices(){
@@ -36,12 +37,12 @@ void displayChoices(){
 
 void loadImage(){
     char fileName[100];
-    char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
+//    char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
     cout<<"Hello Please enter the image file name to process: \n";
     cin>>fileName;
     strcat(basePath,fileName); //concatenating the base path to the file name to the extension
     strcat(basePath,".bmp");
-    readGSBMP(basePath,imageBMP);   //loads the image into imageBMP 2d array
+    readGSBMP(basePath, imageBMP);   //loads the image into imageBMP 2d array
 }
 
 void saveImage(){
@@ -50,7 +51,7 @@ void saveImage(){
     cin>>newFileName;
     strcat(basePath,newFileName);
     strcat(basePath,".bmp");
-    writeGSBMP(basePath,imageBMP); //saves the image in imageBMP 2d array
+    writeGSBMP(basePath, imageBMP); //saves the image in imageBMP 2d array
 }
 void WhiteBackground(unsigned char arr[SIZE][SIZE]){
     for(int i=0;i<SIZE;i++){
@@ -63,7 +64,7 @@ void WhiteBackground(unsigned char arr[SIZE][SIZE]){
 void InvertImage(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=255-imageBMP[i][j];
+            imageBMP[i][j]= 255 - imageBMP[i][j];
         }
     }
 }
@@ -80,7 +81,7 @@ void Transpose(){
 void BlackWhite(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            if(imageBMP[i][j] <127){
+            if(imageBMP[i][j] < 127){
                 imageBMP[i][j]=0;
             }else{
                 imageBMP[i][j]=255;
@@ -96,13 +97,13 @@ void Divide4(){
                 q1[i][j]=imageBMP[i][j];
             }
             else if(i<(SIZE/2)&&j>=(SIZE/2)){
-                q2[i][j-(SIZE/2)]= imageBMP[i][j];
+                q2[i][j - (SIZE / 2)]= imageBMP[i][j];
             }
             else if(i>=(SIZE/2)&&j<(SIZE/2)){
-                q3[i-(SIZE/2)][j]= imageBMP[i][j];
+                q3[i - (SIZE / 2)][j]= imageBMP[i][j];
             }
             else if(i>=(SIZE/2)&&j>=(SIZE/2)){
-                q4[i-(SIZE/2)][j-(SIZE/2)]= imageBMP[i][j];
+                q4[i - (SIZE / 2)][j - (SIZE / 2)]= imageBMP[i][j];
             }
         }
     }
@@ -114,11 +115,11 @@ void MergeImage(){
     cin>>mergeName;
     strcat(basePath,mergeName);
     strcat(basePath,".bmp");
-    readGSBMP(basePath,mergeBMP);
+    readGSBMP(basePath, mergeBMP);
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
-            imageBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j])/2; //takes the average of the GS value of each pixel of the two images
+            imageBMP[i][j] = (imageBMP[i][j] + mergeBMP[i][j]) / 2; //takes the average of the GS value of each pixel of the two images
         }
     }
 
@@ -127,7 +128,7 @@ void MergeImage(){
 void Darken(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=imageBMP[i][j]-imageBMP[i][j]/2; //darkens it by 50%
+            imageBMP[i][j]= imageBMP[i][j] - imageBMP[i][j] / 2; //darkens it by 50%
         }
     }
 }
@@ -135,7 +136,7 @@ void Darken(){
 void Lighten(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]=imageBMP[i][j]+imageBMP[i][j]/2; //lightens the image by 50%
+            imageBMP[i][j]= imageBMP[i][j] + imageBMP[i][j] / 2; //lightens the image by 50%
         }
     }
 }
@@ -150,15 +151,15 @@ void ToImage(unsigned char arr[SIZE][SIZE]){
 void FlipImageVertically(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            flipBMP[i][j]=imageBMP[SIZE-i][j];
+            flipBMP[i][j]=imageBMP[SIZE - i][j];
         }
     }
-        ToImage(flipBMP);
+    ToImage(flipBMP);
 }
 void FlipImageHorizontally(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            flipBMP[i][j]=imageBMP[i][SIZE-j];
+            flipBMP[i][j]=imageBMP[i][SIZE - j];
         }
     }
     ToImage(flipBMP);
@@ -185,28 +186,28 @@ void EnlargeImage(int quarter){
         case 1:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q1[i/2][j/2];
+                    imageBMP[i][j]=q1[i / 2][j / 2];
                 }
             }
             break;
         case 2:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q2[i/2][j/2];
+                    imageBMP[i][j]=q2[i / 2][j / 2];
                 }
             }
             break;
         case 3:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q3[i/2][j/2];
+                    imageBMP[i][j]=q3[i / 2][j / 2];
                 }
             }
             break;
         case 4:
             for(int i =0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    imageBMP[i][j]=q4[i/2][j/2];
+                    imageBMP[i][j]=q4[i / 2][j / 2];
                 }
             }
             break;
@@ -216,7 +217,7 @@ void Shrink(int sh){
     WhiteBackground(shrinkBMP);
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            shrinkBMP[i/sh][j/sh]=(imageBMP[i][j]+imageBMP[i][j+1]+imageBMP[i+1][j]+imageBMP[i+1][j+1])/4;
+            shrinkBMP[i / sh][j / sh]= (imageBMP[i][j] + imageBMP[i][j + 1] + imageBMP[i + 1][j] + imageBMP[i + 1][j + 1]) / 4;
         }
     }
     ToImage(shrinkBMP);
@@ -249,48 +250,48 @@ void ShuffleImage(){
             else if(i<(SIZE/2)&&j>=(SIZE/2)){ //2nd quarter
                 switch(order[1]){
                     case 1:
-                        imageBMP[i][j]=q1[i][j-128];
+                        imageBMP[i][j]=q1[i][j - 128];
                         break;
                     case 2:
-                        imageBMP[i][j]=q2[i][j-128];
+                        imageBMP[i][j]=q2[i][j - 128];
                         break;
                     case 3:
-                        imageBMP[i][j]=q3[i][j-128];
+                        imageBMP[i][j]=q3[i][j - 128];
                         break;
                     case 4:
-                        imageBMP[i][j]=q4[i][j-128];
+                        imageBMP[i][j]=q4[i][j - 128];
                         break;
                 }
             }
             else if(i>=(SIZE/2)&&j<(SIZE/2)){ //3rd quarter
                 switch(order[2]){
                     case 1:
-                        imageBMP[i][j]=q1[i-128][j];
+                        imageBMP[i][j]=q1[i - 128][j];
                         break;
                     case 2:
-                        imageBMP[i][j]=q2[i-128][j];
+                        imageBMP[i][j]=q2[i - 128][j];
                         break;
                     case 3:
-                        imageBMP[i][j]=q3[i-128][j];
+                        imageBMP[i][j]=q3[i - 128][j];
                         break;
                     case 4:
-                        imageBMP[i][j]=q4[i-128][j];
+                        imageBMP[i][j]=q4[i - 128][j];
                         break;
                 }
             }
             else if(i>=(SIZE/2)&&j>=(SIZE/2)){ //4th quarter
                 switch(order[3]){
                     case 1:
-                        imageBMP[i][j]=q1[i-128][j-128];
+                        imageBMP[i][j]=q1[i - 128][j - 128];
                         break;
                     case 2:
-                        imageBMP[i][j]=q2[i-128][j-128];
+                        imageBMP[i][j]=q2[i - 128][j - 128];
                         break;
                     case 3:
-                        imageBMP[i][j]=q3[i-128][j-128];
+                        imageBMP[i][j]=q3[i - 128][j - 128];
                         break;
                     case 4:
-                        imageBMP[i][j]=q4[i-128][j-128];
+                        imageBMP[i][j]=q4[i - 128][j - 128];
                         break;
                 }
             }
@@ -298,11 +299,34 @@ void ShuffleImage(){
     }
 
 }
-void SkewHorizontally(){
-    //input the degree and convert to radian
-    //double mov=tan(rad)*256
-           // double step=mov/SIZE;
-        //    2d arr[size][size+mov]=we want the empty pixels to be white;
+//void SkewHorizontally(){
+//    WhiteBackground(imageSkew);
+//    int degree,move,step;
+//    step=move/SIZE;
+//    double radian;
+//    cout<<"Please enter the degree to skew right\n";
+//    cin>>degree;
+//    radian = degree*(M_PI/180);
+//    move=tan(radian);
+//    for(int j=0;j<SIZE;j++){
+//        step=
+//        for(int i=0;i<SIZE;i++){
+//            if(i+move >= SIZE){
+//                continue;
+//            }
+//            else{
+//                imageSkew[i+move][j]=imageBMP[i][j];
+//            }
+//        }
+//        move-=step;
+//    }
+//    ToImage(imageSkew);
+//
+
+//input the degree and convert to radian
+//double mov=tan(rad)*256
+// double step=mov/SIZE;
+//    2d arr[size][size+mov]=we want the empty pixels to be white;
 //            for(int i to size){
 //                for(int j to size+mov){
 //                    2d arr[i][j+mov]=image[i][j];
@@ -315,7 +339,7 @@ void SkewHorizontally(){
 //                    image[i][j]=2d arr[i][j]
 //                }
 //            }
-}
+//}
 void initChoice(char choice){
     switch (choice){
         case '1':
@@ -374,8 +398,8 @@ void initChoice(char choice){
 //        case 'c': blur
 //            break;
 //        case 'd': crop
-//            break;
-//        case 'e': skew right
+            break;
+//        case 'e':
 //            SkewHorizontally();
 //            break;
 //        case 'f': skew up
@@ -385,4 +409,3 @@ void initChoice(char choice){
             break;
     }
 }
-

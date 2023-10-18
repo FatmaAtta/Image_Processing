@@ -13,19 +13,34 @@
 #include <bits/stdc++.h>
 #include "bmplib.h"
 #include "Functions.h"
+#include "RGB.h"
 using namespace std;
+char choice,type;
 int main(){
-    char choice,type;
     cout<<"Do you want to process a (G)S or (R)GB image?\n ";
     cin>>type;
-    loadImage();
-    displayChoices();
-    cin>>choice;
-    initChoice(choice);
-    while(choice!='0'){
+    if(type=='g'||type=='G'){
+        loadImage();
         displayChoices();
         cin>>choice;
         initChoice(choice);
+        while(choice!='0'){
+            displayChoices();
+            cin>>choice;
+            initChoice(choice);
+        }
     }
+    else{
+        RGBloadImage();
+        RGBdisplayChoices();
+        cin>>choice;
+        RGBinitChoice(choice);
+        while(choice!='0'){
+            displayChoices();
+            cin>>choice;
+            RGBinitChoice(choice);
+        }
+    }
+
     return 0;
 }
