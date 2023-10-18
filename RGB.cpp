@@ -184,17 +184,17 @@ void RGBFlipImageVertically(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
             for(int k=0;k<3;k++){
-
+                flipRGBBMP[i][j][k]=imageRGBBMP[SIZE-i][j][k];
             }
         }
     }
     RGBToImage(flipRGBBMP);
 }
 void RGBFlipImageHorizontally(){
-    for(int i=0;i<3;i++){
+    for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-
+            for(int k=0;k<3;k++){
+                flipRGBBMP[i][j][k]=imageRGBBMP[i][SIZE-j][k];
             }
         }
     }
