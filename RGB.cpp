@@ -220,37 +220,37 @@ void RGBEnlargeImage(int quarter){
     RGBDivide4();
     switch(quarter){
         case 1:
-            for(int i=0;i<3;i++){
+            for(int i=0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    for(int k=0;k<SIZE;k++){
-
+                    for(int k=0;k<3;k++){
+                        imageRGBBMP[i][j][k]=q1RGB[i / 2][j / 2][k];
                     }
                 }
             }
             break;
         case 2:
-            for(int i=0;i<3;i++){
+            for(int i=0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    for(int k=0;k<SIZE;k++){
-
+                    for(int k=0;k<3;k++){
+                        imageRGBBMP[i][j][k]=q2RGB[i / 2][j / 2][k];
                     }
                 }
             }
             break;
         case 3:
-            for(int i=0;i<3;i++){
+            for(int i=0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    for(int k=0;k<SIZE;k++){
-
+                    for(int k=0;k<3;k++){
+                        imageRGBBMP[i][j][k]=q3RGB[i / 2][j / 2][k];
                     }
                 }
             }
             break;
         case 4:
-            for(int i=0;i<3;i++){
+            for(int i=0;i<SIZE;i++){
                 for(int j=0;j<SIZE;j++){
-                    for(int k=0;k<SIZE;k++){
-
+                    for(int k=0;k<3;k++){
+                        imageRGBBMP[i][j][k]=q4RGB[i / 2][j / 2][k];
                     }
                 }
             }
@@ -259,10 +259,10 @@ void RGBEnlargeImage(int quarter){
 }
 void RGBShrink(int sh){
     RGBWhiteBackground(shrinkRGBBMP);
-    for(int i=0;i<3;i++){
+    for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-
+            for(int k=0;k<3;k++){
+                shrinkRGBBMP[i / sh][j / sh][k]= (imageRGBBMP[i][j][k] + imageRGBBMP[i][j + 1][k] + imageRGBBMP[i + 1][j][k] + imageRGBBMP[i + 1][j + 1][k]) / 4;
             }
         }
     }
