@@ -46,12 +46,13 @@ void loadImage(){
 }
 
 void saveImage(){
+    char basePath6[]="./Images/";
     char newFileName[100];
     cout<<"Enter the new file name\n";
     cin>>newFileName;
-    strcat(basePath,newFileName);
-    strcat(basePath,".bmp");
-    writeGSBMP(basePath, imageBMP); //saves the image in imageBMP 2d array
+    strcat(basePath6,newFileName);
+    strcat(basePath6,".bmp");
+    writeGSBMP(basePath6, imageBMP); //saves the image in imageBMP 2d array
 }
 void WhiteBackground(unsigned char arr[SIZE][SIZE]){
     for(int i=0;i<SIZE;i++){
@@ -110,12 +111,13 @@ void Divide4(){
 }
 //function to merge 2 images together
 void MergeImage(){
+    char basePath4[]="./Images/";
     char mergeName[100];
     cout<<"Please enter the name of image file to merge with:\n";
     cin>>mergeName;
-    strcat(basePath,mergeName);
-    strcat(basePath,".bmp");
-    readGSBMP(basePath, mergeBMP);
+    strcat(basePath4,mergeName);
+    strcat(basePath4,".bmp");
+    readGSBMP(basePath4, mergeBMP);
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {

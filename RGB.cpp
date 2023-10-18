@@ -12,10 +12,10 @@ unsigned char flipRGBBMP[SIZE][SIZE][3];  // the image that will be flipped
 unsigned char shrinkRGBBMP[SIZE][SIZE][3];  // the image that will be flipped
 unsigned char imageRGBT[SIZE][SIZE][3];    //transposed image used for the rotate filter
 unsigned char imageRGBSkew[SIZE][SIZE][3];    //array to store the skewed image
-unsigned char q1RGB[SIZE / 2][SIZE / 2];   //2d arrays to store the image divided into quarters
-unsigned char q2RGB[SIZE / 2][SIZE / 2];
-unsigned char q3RGB[SIZE / 2][SIZE / 2];
-unsigned char q4RGB[SIZE / 2][SIZE / 2];
+unsigned char q1RGB[SIZE / 2][SIZE / 2][3];   //2d arrays to store the image divided into quarters
+unsigned char q2RGB[SIZE / 2][SIZE / 2][3];
+unsigned char q3RGB[SIZE / 2][SIZE / 2][3];
+unsigned char q4RGB[SIZE / 2][SIZE / 2][3];
 char basePath2[]="./Images/";
 //function to display the choices
 void RGBdisplayChoices(){
@@ -48,12 +48,13 @@ void RGBloadImage(){
 }
 
 void RGBsaveImage(){
+    char basePath5[]="./Images/";
     char newFileName[100];
     cout<<"Enter the new file name\n";
     cin>>newFileName;
-    strcat(basePath2,newFileName);
-    strcat(basePath2,".bmp");
-    writeRGBBMP(basePath2,imageRGBBMP); //saves the image in imageRGBBMP 2d array
+    strcat(basePath5,newFileName);
+    strcat(basePath5,".bmp");
+    writeRGBBMP(basePath5,imageRGBBMP); //saves the image in imageRGBBMP 2d array
 }
 void RGBWhiteBackground(unsigned char arr[SIZE][SIZE][3]){
     for(int i=0;i<3;i++){
@@ -119,27 +120,39 @@ void RGBBlackWhite(){
 }
 //function that divides the image array into 4 quarters to be used in shuffle and enlarge and shrink filters
 void RGBDivide4(){
-    for(int i=0;i<3;i++){
+    for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-
+            for(int k=0;k<3;k++){
+                if(i<(SIZE/2)&&j<(SIZE/2)){
+                    q1RGB[i][j][k]=imageRGBBMP[i][j][k];
+                }
+                else if(i<(SIZE/2)&&j>=(SIZE/2)){
+                    q2RGB[i][j - (SIZE / 2)][k]= imageRGBBMP[i][j][k];
+                }
+                else if(i>=(SIZE/2)&&j<(SIZE/2)){
+                    q3RGB[i - (SIZE / 2)][j][k]= imageRGBBMP[i][j][k];
+                }
+                else if(i>=(SIZE/2)&&j>=(SIZE/2)){
+                    q4RGB[i - (SIZE / 2)][j - (SIZE / 2)][k]= imageRGBBMP[i][j][k];
+                }
             }
         }
     }
 }
 //function to merge 2 images together
 void RGBMergeImage(){
+    char basePath3[]="./Images/";
     char mergeName[100];
     cout<<"Please enter the name of image file to merge with:\n";
     cin>>mergeName;
-    strcat(basePath2,mergeName);
-    strcat(basePath2,".bmp");
-    readRGBBMP(basePath2,mergeRGBBMP);
+    strcat(basePath3,mergeName);
+    strcat(basePath3,".bmp");
+    readRGBBMP(basePath3,mergeRGBBMP);
 
-    for(int i=0;i<3;i++){
+    for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-
+            for(int k=0;k<3;k++){
+                imageRGBBMP[i][j][k]=(imageRGBBMP[i][j][k]+mergeRGBBMP[i][j][k])/2;
             }
         }
     }
