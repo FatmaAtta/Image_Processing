@@ -1,6 +1,15 @@
-//
 // Created by fatma on 09/10/2023.
-//
+//FCAI - OOP Programming - 2023 - Assignment 1
+//Program Name: main.cpp
+//Last Modification Date: 10/19/2023
+//Purpose: Using a bitmap library to convert an image into an array in order to apply some filters on it
+//version 2.0 RGB
+//Fatma Mahmoud Atta 20220510
+//Shahd Mohammed Ahmed 20220533
+//Reham Fawzy 20220141
+//fatmamaali@gmail.com
+//shahdelnassag@gmail.com
+//fwrymw@gmail.com
 #include <bits/stdc++.h>
 #include <fstream>
 #include "bmplib.h"
@@ -8,14 +17,16 @@
 using namespace std;
 unsigned char imageRGBBMP[SIZE][SIZE][3];  //the image to be processed
 unsigned char mergeRGBBMP[SIZE][SIZE][3];  // the image that will be merged
-unsigned char flipRGBBMP[SIZE][SIZE][3];  // the image that will be flipped
-unsigned char shrinkRGBBMP[SIZE][SIZE][3];  // the image that will be flipped
 unsigned char imageRGBT[SIZE][SIZE][3];    //transposed image used for the rotate filter
+unsigned char flipRGBBMP[SIZE][SIZE][3];  // the image that will be flipped
+unsigned char shrinkRGBBMP[SIZE][SIZE][3];  // the image that will be shrunken
+unsigned char imageRGBblur[SIZE][SIZE][3];  //stores the blurred image
+unsigned char croppedRGBImage[SIZE][SIZE][3];  //stores the cropped image
 unsigned char imageRGBSkew[SIZE][SIZE][3];    //array to store the skewed image
 unsigned char q1RGB[SIZE / 2][SIZE / 2][3];   //2d arrays to store the image divided into quarters
-unsigned char q2RGB[SIZE / 2][SIZE / 2][3];
-unsigned char q3RGB[SIZE / 2][SIZE / 2][3];
-unsigned char q4RGB[SIZE / 2][SIZE / 2][3];
+unsigned char q2RGB[SIZE / 2][SIZE / 2][3]; //
+unsigned char q3RGB[SIZE / 2][SIZE / 2][3]; //
+unsigned char q4RGB[SIZE / 2][SIZE / 2][3]; //
 char basePath2[]="./Images/";
 //function to display the choices
 void RGBdisplayChoices(){
@@ -37,7 +48,7 @@ void RGBdisplayChoices(){
           "s- Save The New Image \n "
           "0- Exit \n";
 }
-
+//function to choose
 void RGBinitChoice(char choice){
     switch (choice){
         case '1':
@@ -96,21 +107,24 @@ void RGBinitChoice(char choice){
         case 'b':
             RGBShuffleImage();
             break;
-//        case 'c': blur
-//            break;
-//        case 'd': crop
+        case 'c':
+            RGBblurImage();
             break;
-//        case 'e':
-//            SkewHorizontally();
-//            break;
-//        case 'f': skew up
-//            break;
+        case 'd':
+            RGBcropImage();
+            break;
+        case 'e':
+            RGBskewHorizontally();
+            break;
+        case 'f':
+            RGBskewVertically();
+            break;
         case 's':
             RGBsaveImage();
             break;
     }
 }
-
+//function to load the image
 void RGBloadImage(){
     char fileName[100];
     cout<<"Hello Please enter the image file name to process: \n";
@@ -119,6 +133,7 @@ void RGBloadImage(){
     strcat(basePath2,".bmp");
     readRGBBMP(basePath2,imageRGBBMP);   //loads the image into imageRGBBMP 2d array
 }
+//funciton to save the image
 void RGBsaveImage(){
     char basePath5[]="./Images/";
     char newFileName[100];
@@ -128,6 +143,7 @@ void RGBsaveImage(){
     strcat(basePath5,".bmp");
     writeRGBBMP(basePath5,imageRGBBMP); //saves the image in imageRGBBMP 2d array
 }
+//function that copies the elements of a 3d array to the imageRGBBMP array
 void RGBToImage(unsigned char arr[SIZE][SIZE][3]){
     for(int i=0;i<3;i++){
         for(int j=0;j<SIZE;j++){
@@ -137,6 +153,7 @@ void RGBToImage(unsigned char arr[SIZE][SIZE][3]){
         }
     }
 }
+//function that sets the background of an image to white
 void RGBWhiteBackground(unsigned char arr[SIZE][SIZE][3]){
     for(int i=0;i<3;i++){
         for(int j=0;j<SIZE;j++){
@@ -230,7 +247,7 @@ void RGBMergeImage(){
     }
 
 }
-//function that copies flipped image to the image array
+//function that flips the image vertically
 void RGBFlipImageVertically(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -241,6 +258,7 @@ void RGBFlipImageVertically(){
     }
     RGBToImage(flipRGBBMP);
 }
+//function that flips the image horizontally
 void RGBFlipImageHorizontally(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -261,7 +279,6 @@ void RGBDarken(){
         }
     }
 }
-
 //function that lightens the image by 50%
 void RGBLighten(){
     for(int i=0;i<3;i++){
@@ -272,10 +289,12 @@ void RGBLighten(){
         }
     }
 }
+//function that rotates images by 270 degrees
 void RGBRotate270(){
     RGBTranspose();
     RGBFlipImageVertically();
 }
+//function that rotates an image by an inputted degree
 void RGBRotateImage(int degree){
     if(degree==90){
         RGBRotate270();
@@ -288,6 +307,7 @@ void RGBRotateImage(int degree){
         RGBRotate270();
     }
 }
+//function that detects the image edges
 void RGBDetectImageEdges(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -305,6 +325,7 @@ void RGBDetectImageEdges(){
         }
     }
 }
+//function that enlarges a quarter of the image
 void RGBEnlargeImage(int quarter){
     RGBDivide4();
     switch(quarter){
@@ -346,6 +367,7 @@ void RGBEnlargeImage(int quarter){
             break;
     }
 }
+//function that shrinks the image to a specific size
 void RGBShrink(int sh){
     RGBWhiteBackground(shrinkRGBBMP);
     for(int i=0;i<SIZE;i++){
@@ -357,6 +379,7 @@ void RGBShrink(int sh){
     }
     RGBToImage(shrinkRGBBMP);
 }
+//function that mirrors a half of the image
 void RGBmirrorImage(){
     char a;
     cout<<"Mirror (l)eft, (r)ight, (u)pper or (d)own\n";
@@ -399,6 +422,7 @@ void RGBmirrorImage(){
     }
 
 }
+//function that shuffles the quarters of an image
 void RGBShuffleImage(){
     int order[4];
     cout<<"Enter the new order of quarters\n";
@@ -476,4 +500,89 @@ void RGBShuffleImage(){
             }
         }
     }
+}
+//function that blurs the image
+void RGBblurImage(){
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            for(int k=0;k<3;k++){
+                imageRGBblur[i][j][k] = ( imageRGBBMP[i-1][j-1][k] + imageRGBBMP[i-1][j][k]+ imageRGBBMP[i-1][j+1][k] +
+                                    imageRGBBMP[i][j-1][k] + imageRGBBMP[i][j][k] + imageRGBBMP[i][j+1][k] +
+                                    imageRGBBMP[i+1][j-1][k] + imageRGBBMP[i+1][j][k] +imageRGBBMP[i+1][j+1][k] ) /9;
+            }
+
+        }
+    }
+    RGBToImage(imageRGBblur);
+}
+//function that crops the image
+void RGBcropImage(){
+    RGBWhiteBackground(croppedRGBImage);
+    int x,y,l,w;
+    cout<<"Please enter x, y, l, w:\n";
+    cin >> x >> y>>l>>w;
+    for(int i=x; i < SIZE-x; ++i){
+        for(int j=y; j <SIZE-y; ++j){
+            for(int k=0;k<3;k++){
+                croppedRGBImage[i][j][k]=imageRGBBMP[i][j][k];
+            }
+
+        }
+    }
+    RGBToImage(croppedRGBImage);
+}
+//function that skews the image horizontally
+void RGBskewHorizontally(){
+    // convert angle to radian
+    double rad;
+    cout << "Enter the angle: ";
+    cin >> rad;
+    rad = (rad * 22) / (180 * 7);
+    //  factor that stretches the image in the horizontal direction
+    double skewfactor = tan(rad);
+    double scalefactor = 2.0;
+
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            for(int k=0;k<3;k++){
+                //calculate the new y-coordinate using the following formula
+                int new_j =  j * scalefactor - skewfactor * i; // 1*2.0    - tan(30)*1
+                if (new_j >= 0 && new_j < SIZE) {
+                    imageRGBSkew[i][j][k] = imageRGBBMP[i][new_j][k];
+                } else {
+                    imageRGBSkew[i][j][k] = 255;
+                }
+            }
+
+        }
+    }
+    RGBToImage(imageRGBSkew);
+}
+//function that skews the image horizontally
+void RGBskewVertically(){
+    // convert angle to radian
+    double rad;
+    cout << "Enter the angle: ";
+    cin >> rad;
+    rad = (rad * 22) / (180 * 7);
+    double skew_factor = tan(rad);
+    //  factor that stretches the image in the verticall direction
+    double scale_factor = 2.0;
+
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            for(int k=0;k<3;k++){
+                // calculate the new x-coordinate using the following formula//
+                int new_i = i * scale_factor - skew_factor * j;
+                if (new_i >= 0 && new_i < SIZE) {
+                    imageRGBSkew[i][j][k] = imageRGBBMP[new_i][j][k];
+                } else {
+                    imageRGBSkew[i][j][k] = 255;
+                }
+            }
+
+
+        }
+    }
+    RGBToImage(imageRGBSkew);
 }
