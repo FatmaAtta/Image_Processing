@@ -5,6 +5,9 @@
 #ifndef IMAGE_PROCESSING_FUNCTIONS_H
 #define IMAGE_PROCESSING_FUNCTIONS_H
 void displayChoices();
+void detectImageEdges();
+void cropImage();
+void blurImage();
 void loadImage();
 void ToImage(unsigned char arr[SIZE][SIZE]);
 void saveImage();

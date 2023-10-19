@@ -8,7 +8,9 @@ unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
 unsigned char flipBMP[SIZE][SIZE];  // the image that will be flipped
 unsigned char shrinkBMP[SIZE][SIZE];  // the image that will be flipped
 unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
+unsigned char croppedImage[SIZE][SIZE];    //transposed image used for the rotate filter
 unsigned char imageSkew[SIZE][SIZE];    //array to store the skewed image
+unsigned char imageblur[SIZE][SIZE];    //array to store the skewed image
 unsigned char q1[SIZE / 2][SIZE / 2];   //2d arrays to store the image divided into quarters
 unsigned char q3[SIZE / 2][SIZE / 2];
 unsigned char q4[SIZE / 2][SIZE / 2];
@@ -105,6 +107,21 @@ void Divide4(){
             }
             else if(i>=(SIZE/2)&&j>=(SIZE/2)){
                 q4[i - (SIZE / 2)][j - (SIZE / 2)]= imageBMP[i][j];
+            }
+        }
+    }
+}
+void detectImageEdges(){
+    for(int i=0;i<SIZE;++i){
+        for(int j=0;j<SIZE ;++j){
+            if(imageBMP[i+1][j+1]-imageBMP[i][j]>45){
+                imageBMP[i][j]=0;
+            }
+            else if(imageBMP[i][j]-imageBMP[i+1][j+1]>45){
+                imageBMP[i][j]=0;
+            }
+            else{
+                imageBMP[i][j]=255;
             }
         }
     }
@@ -301,46 +318,28 @@ void ShuffleImage(){
     }
 
 }
-//void SkewHorizontally(){
-//    WhiteBackground(imageSkew);
-//    int degree,move,step;
-//    step=move/SIZE;
-//    double radian;
-//    cout<<"Please enter the degree to skew right\n";
-//    cin>>degree;
-//    radian = degree*(M_PI/180);
-//    move=tan(radian);
-//    for(int j=0;j<SIZE;j++){
-//        step=
-//        for(int i=0;i<SIZE;i++){
-//            if(i+move >= SIZE){
-//                continue;
-//            }
-//            else{
-//                imageSkew[i+move][j]=imageBMP[i][j];
-//            }
-//        }
-//        move-=step;
-//    }
-//    ToImage(imageSkew);
-//
+void cropImage(){
+    WhiteBackground(croppedImage);
+    int x,y,l,w;
+    cout<<"Please enter x, y, l, w:\n";
+    cin >> x >> y>>l>>w;
 
-//input the degree and convert to radian
-//double mov=tan(rad)*256
-// double step=mov/SIZE;
-//    2d arr[size][size+mov]=we want the empty pixels to be white;
-//            for(int i to size){
-//                for(int j to size+mov){
-//                    2d arr[i][j+mov]=image[i][j];
+    for(int i=x; i < SIZE-x; ++i){
+        for(int j=y; j <SIZE-y; ++j){
+            croppedImage[i][j]=imageBMP[i][j];
+        }
+    }
+    ToImage(croppedImage);
+}
+//void blurImage(){
 //
-//                }
-//mov-=step;
-//            }
-//            for(i to size){
-//                for(j to size){
-//                    image[i][j]=2d arr[i][j]
-//                }
-//            }
+//    for (int i = 0; i < SIZE; ++i) {
+//        for (int j = 0; j < SIZE; ++j) {
+//            newimage[i][j] = ( image[i-1][j-1] + image[i-1][j]+ image[i-1][j+1] +
+//                               image[i][j-1] + image[i][j] + image[i][j+1] +
+//                               image[i+1][j-1] + image[i+1][j] +image[i+1][j+1] ) /9;
+//        }
+//    }
 //}
 void initChoice(char choice){
     switch (choice){
@@ -379,7 +378,9 @@ void initChoice(char choice){
             cin>>degree;
             RotateImage(degree);
             break;
-        case '7': //detect image edges
+        case '7':
+            detectImageEdges();
+            break;
         case '8':
             int quarter;
             cout<<"Enlarge quarter 1, 2, 3, or 4?\n";
@@ -399,7 +400,8 @@ void initChoice(char choice){
             break;
 //        case 'c': blur
 //            break;
-//        case 'd': crop
+        case 'd':
+            cropImage();
             break;
 //        case 'e':
 //            SkewHorizontally();
