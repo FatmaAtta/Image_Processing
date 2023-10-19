@@ -38,6 +38,79 @@ void RGBdisplayChoices(){
           "0- Exit \n";
 }
 
+void RGBinitChoice(char choice){
+    switch (choice){
+        case '1':
+            RGBBlackWhite();
+            break;
+        case '2':
+            RGBInvertImage();
+            break;
+        case '3':
+            RGBMergeImage();
+            break;
+        case '4':
+            char hv;
+            cout<<"Flip (h)orizontally or (v)ertically? \n";
+            cin>>hv;
+            if(hv=='h'){
+                RGBFlipImageHorizontally();
+            }else{
+                RGBFlipImageVertically();
+            };
+            break;
+        case '5':
+            char dl;
+            cout<<"(d)arken or (l)ighten? \n";
+            cin>>dl;
+            if(dl=='d'){
+                RGBDarken();
+            }else{
+                RGBLighten();
+            };
+            break;
+        case '6':
+            int degree;
+            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
+            cin>>degree;
+            RGBRotateImage(degree);
+            break;
+        case '7':
+            RGBDetectImageEdges();
+            break;
+        case '8':
+            int quarter;
+            cout<<"Enlarge quarter 1, 2, 3, or 4?\n";
+            cin>>quarter;
+            RGBEnlargeImage(quarter);
+            break;
+        case '9':
+            int sh;
+            cout<<"Shrink to half (2) or third (3) or quarter (4)?\n";
+            cin>>sh;
+            RGBShrink(sh);
+            break;
+        case 'a':
+            RGBmirrorImage();
+            break;
+        case 'b':
+            RGBShuffleImage();
+            break;
+//        case 'c': blur
+//            break;
+//        case 'd': crop
+            break;
+//        case 'e':
+//            SkewHorizontally();
+//            break;
+//        case 'f': skew up
+//            break;
+        case 's':
+            RGBsaveImage();
+            break;
+    }
+}
+
 void RGBloadImage(){
     char fileName[100];
     cout<<"Hello Please enter the image file name to process: \n";
@@ -46,7 +119,6 @@ void RGBloadImage(){
     strcat(basePath2,".bmp");
     readRGBBMP(basePath2,imageRGBBMP);   //loads the image into imageRGBBMP 2d array
 }
-
 void RGBsaveImage(){
     char basePath5[]="./Images/";
     char newFileName[100];
@@ -55,15 +127,6 @@ void RGBsaveImage(){
     strcat(basePath5,newFileName);
     strcat(basePath5,".bmp");
     writeRGBBMP(basePath5,imageRGBBMP); //saves the image in imageRGBBMP 2d array
-}
-void RGBWhiteBackground(unsigned char arr[SIZE][SIZE][3]){
-    for(int i=0;i<3;i++){
-        for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-                arr[j][k][i]=255;
-            }
-        }
-    }
 }
 void RGBToImage(unsigned char arr[SIZE][SIZE][3]){
     for(int i=0;i<3;i++){
@@ -74,12 +137,11 @@ void RGBToImage(unsigned char arr[SIZE][SIZE][3]){
         }
     }
 }
-//function to invert the image colors
-void RGBInvertImage(){
+void RGBWhiteBackground(unsigned char arr[SIZE][SIZE][3]){
     for(int i=0;i<3;i++){
         for(int j=0;j<SIZE;j++){
             for(int k=0;k<SIZE;k++){
-                imageRGBBMP[j][k][i]= 255 - imageRGBBMP[j][k][i];
+                arr[j][k][i]=255;
             }
         }
     }
@@ -94,6 +156,27 @@ void RGBTranspose(){
         }
     }
     RGBToImage(imageRGBT);
+}
+//function that divides the image array into 4 quarters to be used in shuffle and enlarge and shrink filters
+void RGBDivide4(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<3;k++){
+                if(i<(SIZE/2)&&j<(SIZE/2)){
+                    q1RGB[i][j][k]=imageRGBBMP[i][j][k];
+                }
+                else if(i<(SIZE/2)&&j>=(SIZE/2)){
+                    q2RGB[i][j - (SIZE / 2)][k]= imageRGBBMP[i][j][k];
+                }
+                else if(i>=(SIZE/2)&&j<(SIZE/2)){
+                    q3RGB[i - (SIZE / 2)][j][k]= imageRGBBMP[i][j][k];
+                }
+                else if(i>=(SIZE/2)&&j>=(SIZE/2)){
+                    q4RGB[i - (SIZE / 2)][j - (SIZE / 2)][k]= imageRGBBMP[i][j][k];
+                }
+            }
+        }
+    }
 }
 //function that turns the image into black and white
 void RGBBlackWhite(){
@@ -118,23 +201,12 @@ void RGBBlackWhite(){
         }
     }
 }
-//function that divides the image array into 4 quarters to be used in shuffle and enlarge and shrink filters
-void RGBDivide4(){
-    for(int i=0;i<SIZE;i++){
+//function to invert the image colors
+void RGBInvertImage(){
+    for(int i=0;i<3;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<3;k++){
-                if(i<(SIZE/2)&&j<(SIZE/2)){
-                    q1RGB[i][j][k]=imageRGBBMP[i][j][k];
-                }
-                else if(i<(SIZE/2)&&j>=(SIZE/2)){
-                    q2RGB[i][j - (SIZE / 2)][k]= imageRGBBMP[i][j][k];
-                }
-                else if(i>=(SIZE/2)&&j<(SIZE/2)){
-                    q3RGB[i - (SIZE / 2)][j][k]= imageRGBBMP[i][j][k];
-                }
-                else if(i>=(SIZE/2)&&j>=(SIZE/2)){
-                    q4RGB[i - (SIZE / 2)][j - (SIZE / 2)][k]= imageRGBBMP[i][j][k];
-                }
+            for(int k=0;k<SIZE;k++){
+                imageRGBBMP[j][k][i]= 255 - imageRGBBMP[j][k][i];
             }
         }
     }
@@ -158,28 +230,7 @@ void RGBMergeImage(){
     }
 
 }
-//function that darkens the image by 50%
-void RGBDarken(){
-    for(int i=0;i<SIZE;i++){
-        for(int j=0;j<SIZE;j++){
-            for(int k=0;k<3;k++){
-                imageRGBBMP[i][j][k]-=imageRGBBMP[i][j][k]/2;
-            }
-        }
-    }
-}
-//function that lightens the image by 50%
-void RGBLighten(){
-    for(int i=0;i<3;i++){
-        for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-                imageRGBBMP[i][j][k]+=imageRGBBMP[i][j][k]/2;
-            }
-        }
-    }
-}
 //function that copies flipped image to the image array
-
 void RGBFlipImageVertically(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -199,6 +250,27 @@ void RGBFlipImageHorizontally(){
         }
     }
     RGBToImage(flipRGBBMP);
+}
+//function that darkens the image by 50%
+void RGBDarken(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<3;k++){
+                imageRGBBMP[i][j][k]-=imageRGBBMP[i][j][k]/2;
+            }
+        }
+    }
+}
+
+//function that lightens the image by 50%
+void RGBLighten(){
+    for(int i=0;i<3;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<SIZE;k++){
+                imageRGBBMP[i][j][k]+=imageRGBBMP[i][j][k]/2;
+            }
+        }
+    }
 }
 void RGBRotate270(){
     RGBTranspose();
@@ -285,6 +357,48 @@ void RGBShrink(int sh){
     }
     RGBToImage(shrinkRGBBMP);
 }
+void RGBmirrorImage(){
+    char a;
+    cout<<"Mirror (l)eft, (r)ight, (u)pper or (d)own\n";
+    cin>>a;
+    if(a=='r'||a=='R') {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE/2; ++j) {
+                for(int k=0;k<3;k++){
+                    imageRGBBMP[i][j][k] = imageRGBBMP[i][ 255-j][k];
+                }
+            }
+        }
+    }
+    if(a=='l'||a=='L') {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 255; j > SIZE/2; --j) {
+                for(int k=0;k<3;k++){
+                    imageRGBBMP[i][j][k] = imageRGBBMP[i][255-j][k];
+                }
+            }
+        }
+    }
+    if(a=='d'||a=='D') {
+        for (int i = 0; i < SIZE/2; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+                for(int k=0;k<3;k++){
+                    imageRGBBMP[i][j][k] = imageRGBBMP[255-i][ j][k];
+                }
+            }
+        }
+    }
+    if(a=='u'||a=='U') {
+        for (int i = 255; i > SIZE/2; --i) {
+            for (int j = 0; j < SIZE; ++j) {
+                for(int k=0;k<3;k++){
+                    imageRGBBMP[i][j][k] = imageRGBBMP[255-i][j][k];
+                }
+            }
+        }
+    }
+
+}
 void RGBShuffleImage(){
     int order[4];
     cout<<"Enter the new order of quarters\n";
@@ -361,116 +475,5 @@ void RGBShuffleImage(){
                 }
             }
         }
-    }
-}
-//void SkewHorizontally(){
-//    WhiteBackground(imageRGBSkew);
-//    int degree,move,step;
-//    step=move/SIZE;
-//    double radian;
-//    cout<<"Please enter the degree to skew right\n";
-//    cin>>degree;
-//    radian = degree*(M_PI/180);
-//    move=tan(radian);
-//    for(int j=0;j<SIZE;j++){
-//        step=
-//        for(int i=0;i<SIZE;i++){
-//            if(i+move >= SIZE){
-//                continue;
-//            }
-//            else{
-//                imageRGBSkew[i+move][j]=imageRGBBMP[i][j];
-//            }
-//        }
-//        move-=step;
-//    }
-//    ToImage(imageRGBSkew);
-//
-
-//input the degree and convert to radian
-//double mov=tan(rad)*256
-// double step=mov/SIZE;
-//    2d arr[size][size+mov]=we want the empty pixels to be white;
-//            for(int i to size){
-//                for(int j to size+mov){
-//                    2d arr[i][j+mov]=image[i][j];
-//
-//                }
-//mov-=step;
-//            }
-//            for(i to size){
-//                for(j to size){
-//                    image[i][j]=2d arr[i][j]
-//                }
-//            }
-void RGBinitChoice(char choice){
-    switch (choice){
-        case '1':
-            RGBBlackWhite();
-            break;
-        case '2':
-            RGBInvertImage();
-            break;
-        case '3':
-            RGBMergeImage();
-            break;
-        case '4':
-            char hv;
-            cout<<"Flip (h)orizontally or (v)ertically? \n";
-            cin>>hv;
-            if(hv=='h'){
-                RGBFlipImageHorizontally();
-            }else{
-                RGBFlipImageVertically();
-            };
-            break;
-        case '5':
-            char dl;
-            cout<<"(d)arken or (l)ighten? \n";
-            cin>>dl;
-            if(dl=='d'){
-                RGBDarken();
-            }else{
-                RGBLighten();
-            };
-            break;
-        case '6':
-            int degree;
-            cout<<"Rotate (90) or (180) or (270)? \n"; // if 180 use flip, also the 270 is flip of 90
-            cin>>degree;
-            RGBRotateImage(degree);
-            break;
-        case '7':
-            RGBDetectImageEdges();
-            break;
-        case '8':
-            int quarter;
-            cout<<"Enlarge quarter 1, 2, 3, or 4?\n";
-            cin>>quarter;
-            RGBEnlargeImage(quarter);
-            break;
-        case '9':
-            int sh;
-            cout<<"Shrink to half (2) or third (3) or quarter (4)?\n";
-            cin>>sh;
-            RGBShrink(sh);
-            break;
-//        case 'a': flip
-//            break;
-        case 'b':
-            RGBShuffleImage();
-            break;
-//        case 'c': blur
-//            break;
-//        case 'd': crop
-            break;
-//        case 'e':
-//            SkewHorizontally();
-//            break;
-//        case 'f': skew up
-//            break;
-        case 's':
-            RGBsaveImage();
-            break;
     }
 }

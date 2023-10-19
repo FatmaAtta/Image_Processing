@@ -25,6 +25,7 @@ void RGBDetectImageEdges();
 void RGBRotateImage(int degree);
 void RGBEnlargeImage(int degree);
 void RGBShrink(int sh);
+void RGBmirrorImage();
 void RGBShuffleImage();
 
 
