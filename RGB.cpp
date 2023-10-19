@@ -216,6 +216,23 @@ void RGBRotateImage(int degree){
         RGBRotate270();
     }
 }
+void RGBDetectImageEdges(){
+    for(int i=0;i<SIZE;i++){
+        for(int j=0;j<SIZE;j++){
+            for(int k=0;k<3;k++){
+                if(imageRGBBMP[i+1][j+1][k]-imageRGBBMP[i][j][k]>45){
+                    imageRGBBMP[i][j][k]=0;
+                }
+                else if(imageRGBBMP[i][j][k]-imageRGBBMP[i+1][j+1][k]>45){
+                    imageRGBBMP[i][j][k]=0;
+                }
+                else{
+                    imageRGBBMP[i][j][k]=255;
+                }
+            }
+        }
+    }
+}
 void RGBEnlargeImage(int quarter){
     RGBDivide4();
     switch(quarter){
@@ -423,7 +440,9 @@ void RGBinitChoice(char choice){
             cin>>degree;
             RGBRotateImage(degree);
             break;
-        case '7': //detect image edges
+        case '7':
+            RGBDetectImageEdges();
+            break;
         case '8':
             int quarter;
             cout<<"Enlarge quarter 1, 2, 3, or 4?\n";
