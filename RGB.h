@@ -7,8 +7,8 @@
 
 void RGBdisplayChoices();
 void RGBloadImage();
-void RGBToImage(unsigned char arr[SIZE][SIZE][3]);
 void RGBsaveImage();
+void RGBToImage(unsigned char arr[SIZE][SIZE][3]);
 void RGBWhiteBackground(unsigned char arr[SIZE][SIZE][3]);
 void RGBBlackWhite();
 void RGBInvertImage();

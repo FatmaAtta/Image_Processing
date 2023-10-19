@@ -342,6 +342,87 @@ void blurImage(){
     }
     ToImage(imageblur);
 }
+void mirrorImage(){
+    char a;
+    cout<<"Mirror (l)eft, (r)ight, (u)pper or (d)own\n";
+    cin>>a;
+    if(a=='r'||a=='R') {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 0; j < SIZE/2; ++j) {
+                imageBMP[i][j] = imageBMP[i][ 255-j];
+            }
+        }
+    }
+    if(a=='l'||a=='L') {
+        for (int i = 0; i < SIZE; ++i) {
+            for (int j = 255; j > SIZE/2; --j) {
+                imageBMP[i][j] = imageBMP[i][255-j];
+            }
+        }
+    }
+    if(a=='d'||a=='D') {
+        for (int i = 0; i < SIZE/2; ++i) {
+            for (int j = 0; j < SIZE; ++j) {
+                imageBMP[i][j] = imageBMP[255-i][ j];
+            }
+        }
+    }
+    if(a=='u'||a=='U') {
+        for (int i = 255; i > SIZE/2; --i) {
+            for (int j = 0; j < SIZE; ++j) {
+                imageBMP[i][j] = imageBMP[255-i][j];
+            }
+        }
+    }
+
+}
+void skewHorizontally() {
+    // convert angle to radian
+    double rad;
+    cout << "Enter the angle: ";
+    cin >> rad;
+    rad = (rad * 22) / (180 * 7);
+    //  factor that stretches the image in the horizontal direction
+    double skewfactor = tan(rad);
+    double scalefactor = 2.0;
+
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            //calculate the new y-coordinate using the following formula
+            int new_j =  j * scalefactor - skewfactor * i; // 1*2.0    - tan(30)*1
+            if (new_j >= 0 && new_j < SIZE) {
+                imageSkew[i][j] = imageBMP[i][new_j];
+            } else {
+                imageSkew[i][j] = 255;
+            }
+        }
+    }
+    ToImage(imageSkew);
+}
+void skewVertically(){
+    // convert angle to radian
+    double rad;
+    cout << "Enter the angle: ";
+    cin >> rad;
+    rad = (rad * 22) / (180 * 7);
+    double skew_factor = tan(rad);
+    //  factor that stretches the image in the verticall direction
+    double scale_factor = 2.0;
+
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            // calculate the new x-coordinate using the following formula//
+            int new_i = i * scale_factor - skew_factor * j;
+            if (new_i >= 0 && new_i < SIZE) {
+                imageSkew[i][j] = imageBMP[new_i][j];
+            } else {
+                imageSkew[i][j] = 255;
+            }
+
+        }
+    }
+    ToImage(imageSkew);
+}
 void initChoice(char choice){
     switch (choice){
         case '1':
@@ -394,8 +475,9 @@ void initChoice(char choice){
             cin>>sh;
             Shrink(sh);
             break;
-//        case 'a': flip
-//            break;
+        case 'a':
+            mirrorImage();
+            break;
         case 'b':
             ShuffleImage();
             break;
@@ -405,11 +487,12 @@ void initChoice(char choice){
         case 'd':
             cropImage();
             break;
-//        case 'e':
-//            SkewHorizontally();
-//            break;
-//        case 'f': skew up
-//            break;
+        case 'e':
+            skewHorizontally();
+            break;
+        case 'f':
+            skewVertically();
+            break;
         case 's':
             saveImage();
             break;

@@ -20,12 +20,14 @@ void Divide4();
 void MergeImage();
 void Darken();
 void Lighten();
+void mirrorImage();
+void skewHorizontally();
+void skewVertically();
 void FlipImageVertically();
 void FlipImageHorizontally();
 void Rotate270();
 void RotateImage(int degree);
 void EnlargeImage(int degree);
 void ShuffleImage();
-void SkewHorizontally();
 void initChoice(char choice);
 #endif //IMAGE_PROCESSING_FUNCTIONS_H
