@@ -275,10 +275,73 @@ void RGBShuffleImage(){
         cin>>order[i];
     }
     RGBDivide4();
-    for(int i=0;i<3;i++){
+    for(int i =0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            for(int k=0;k<SIZE;k++){
-
+            for(int k=0;k<3;k++){
+                if(i<(SIZE/2)&&j<(SIZE/2)){ //1st quarter
+                    switch(order[0]){
+                        case 1:
+                            imageRGBBMP[i][j][k]=q1RGB[i][j][k];
+                            break;
+                        case 2:
+                            imageRGBBMP[i][j][k]=q2RGB[i][j][k];
+                            break;
+                        case 3:
+                            imageRGBBMP[i][j][k]=q3RGB[i][j][k];
+                            break;
+                        case 4:
+                            imageRGBBMP[i][j][k]=q4RGB[i][j][k];
+                            break;
+                    }
+                }
+                else if(i<(SIZE/2)&&j>=(SIZE/2)){ //2nd quarter
+                    switch(order[1]){
+                        case 1:
+                            imageRGBBMP[i][j][k]=q1RGB[i][j - 128][k];
+                            break;
+                        case 2:
+                            imageRGBBMP[i][j][k]=q2RGB[i][j - 128][k];
+                            break;
+                        case 3:
+                            imageRGBBMP[i][j][k]=q3RGB[i][j - 128][k];
+                            break;
+                        case 4:
+                            imageRGBBMP[i][j][k]=q4RGB[i][j - 128][k];
+                            break;
+                    }
+                }
+                else if(i>=(SIZE/2)&&j<(SIZE/2)){ //3rd quarter
+                    switch(order[2]){
+                        case 1:
+                            imageRGBBMP[i][j][k]=q1RGB[i - 128][j][k];
+                            break;
+                        case 2:
+                            imageRGBBMP[i][j][k]=q2RGB[i - 128][j][k];
+                            break;
+                        case 3:
+                            imageRGBBMP[i][j][k]=q3RGB[i - 128][j][k];
+                            break;
+                        case 4:
+                            imageRGBBMP[i][j][k]=q4RGB[i - 128][j][k];
+                            break;
+                    }
+                }
+                else if(i>=(SIZE/2)&&j>=(SIZE/2)){ //4th quarter
+                    switch(order[3]){
+                        case 1:
+                            imageRGBBMP[i][j][k]=q1RGB[i - 128][j - 128][k];
+                            break;
+                        case 2:
+                            imageRGBBMP[i][j][k]=q2RGB[i - 128][j - 128][k];
+                            break;
+                        case 3:
+                            imageRGBBMP[i][j][k]=q3RGB[i - 128][j - 128][k];
+                            break;
+                        case 4:
+                            imageRGBBMP[i][j][k]=q4RGB[i - 128][j - 128][k];
+                            break;
+                    }
+                }
             }
         }
     }
