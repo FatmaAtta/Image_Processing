@@ -3,15 +3,15 @@
 #include "bmplib.h"
 #include "Functions.h"
 using namespace std;
-unsigned char imageBMP[SIZE][SIZE];  //the image to be processed
-unsigned char mergeBMP[SIZE][SIZE];  // the image that will be merged
-unsigned char flipBMP[SIZE][SIZE];  // the image that will be flipped
-unsigned char shrinkBMP[SIZE][SIZE];  // the image that will be flipped
-unsigned char imageT[SIZE][SIZE];    //transposed image used for the rotate filter
-unsigned char croppedImage[SIZE][SIZE];    //transposed image used for the rotate filter
-unsigned char imageSkew[SIZE][SIZE];    //array to store the skewed image
-unsigned char imageblur[SIZE][SIZE];    //array to store the skewed image
-unsigned char q1[SIZE / 2][SIZE / 2];   //2d arrays to store the image divided into quarters
+unsigned char imageBMP[SIZE][SIZE];  //the imageBMP to be processed
+unsigned char mergeBMP[SIZE][SIZE];  // the imageBMP that will be merged
+unsigned char flipBMP[SIZE][SIZE];  // the imageBMP that will be flipped
+unsigned char shrinkBMP[SIZE][SIZE];  // the imageBMP that will be flipped
+unsigned char imageT[SIZE][SIZE];    //transposed imageBMP used for the rotate filter
+unsigned char croppedImage[SIZE][SIZE];    //transposed imageBMP used for the rotate filter
+unsigned char imageSkew[SIZE][SIZE];    //array to store the skewed imageBMP
+unsigned char imageblur[SIZE][SIZE];    //array to store the skewed imageBMP
+unsigned char q1[SIZE / 2][SIZE / 2];   //2d arrays to store the imageBMP divided into quarters
 unsigned char q3[SIZE / 2][SIZE / 2];
 unsigned char q4[SIZE / 2][SIZE / 2];
 unsigned char q2[SIZE / 2][SIZE / 2];
@@ -40,11 +40,11 @@ void displayChoices(){
 void loadImage(){
     char fileName[100];
 //    char basePath[]="D:\\GitHub\\Image_Processing\\cmake-build-debug\\Images\\";
-    cout<<"Hello Please enter the image file name to process: \n";
+    cout<<"Hello Please enter the imageBMP file name to process: \n";
     cin>>fileName;
     strcat(basePath,fileName); //concatenating the base path to the file name to the extension
     strcat(basePath,".bmp");
-    readGSBMP(basePath, imageBMP);   //loads the image into imageBMP 2d array
+    readGSBMP(basePath, imageBMP);   //loads the imageBMP into imageBMP 2d array
 }
 
 void saveImage(){
@@ -54,7 +54,7 @@ void saveImage(){
     cin>>newFileName;
     strcat(basePath6,newFileName);
     strcat(basePath6,".bmp");
-    writeGSBMP(basePath6, imageBMP); //saves the image in imageBMP 2d array
+    writeGSBMP(basePath6, imageBMP); //saves the imageBMP in imageBMP 2d array
 }
 void WhiteBackground(unsigned char arr[SIZE][SIZE]){
     for(int i=0;i<SIZE;i++){
@@ -63,7 +63,7 @@ void WhiteBackground(unsigned char arr[SIZE][SIZE]){
         }
     }
 }
-//function to invert the image colors
+//function to invert the imageBMP colors
 void InvertImage(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -80,7 +80,7 @@ void Transpose(){
     }
     ToImage(imageT);
 }
-//function that turns the image into black and white
+//function that turns the imageBMP into black and white
 void BlackWhite(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -92,7 +92,7 @@ void BlackWhite(){
         }
     }
 }
-//function that divides the image array into 4 quarters to be used in shuffle and enlarge and shrink filters
+//function that divides the imageBMP array into 4 quarters to be used in shuffle and enlarge and shrink filters
 void Divide4(){
     for(int i =0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -130,7 +130,7 @@ void detectImageEdges(){
 void MergeImage(){
     char basePath4[]="./Images/";
     char mergeName[100];
-    cout<<"Please enter the name of image file to merge with:\n";
+    cout<<"Please enter the name of imageBMP file to merge with:\n";
     cin>>mergeName;
     strcat(basePath4,mergeName);
     strcat(basePath4,".bmp");
@@ -143,7 +143,7 @@ void MergeImage(){
     }
 
 }
-//function that darkens the image by 50%
+//function that darkens the imageBMP by 50%
 void Darken(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -151,15 +151,15 @@ void Darken(){
         }
     }
 }
-//function that lightens the image by 50%
+//function that lightens the imageBMP by 50%
 void Lighten(){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
-            imageBMP[i][j]= imageBMP[i][j] + imageBMP[i][j] / 2; //lightens the image by 50%
+            imageBMP[i][j]= imageBMP[i][j] + imageBMP[i][j] / 2; //lightens the imageBMP by 50%
         }
     }
 }
-//function that copies flipped image to the image array
+//function that copies flipped imageBMP to the imageBMP array
 void ToImage(unsigned char arr[SIZE][SIZE]){
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -331,16 +331,17 @@ void cropImage(){
     }
     ToImage(croppedImage);
 }
-//void blurImage(){
-//
-//    for (int i = 0; i < SIZE; ++i) {
-//        for (int j = 0; j < SIZE; ++j) {
-//            newimage[i][j] = ( image[i-1][j-1] + image[i-1][j]+ image[i-1][j+1] +
-//                               image[i][j-1] + image[i][j] + image[i][j+1] +
-//                               image[i+1][j-1] + image[i+1][j] +image[i+1][j+1] ) /9;
-//        }
-//    }
-//}
+void blurImage(){
+
+    for (int i = 0; i < SIZE; ++i) {
+        for (int j = 0; j < SIZE; ++j) {
+            imageblur[i][j] = ( imageBMP[i-1][j-1] + imageBMP[i-1][j]+ imageBMP[i-1][j+1] +
+                               imageBMP[i][j-1] + imageBMP[i][j] + imageBMP[i][j+1] +
+                               imageBMP[i+1][j-1] + imageBMP[i+1][j] +imageBMP[i+1][j+1] ) /9;
+        }
+    }
+    ToImage(imageblur);
+}
 void initChoice(char choice){
     switch (choice){
         case '1':
@@ -398,8 +399,9 @@ void initChoice(char choice){
         case 'b':
             ShuffleImage();
             break;
-//        case 'c': blur
-//            break;
+        case 'c':
+            blurImage();
+            break;
         case 'd':
             cropImage();
             break;
