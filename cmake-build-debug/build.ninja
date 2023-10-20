@@ -49,8 +49,8 @@ cmake_ninja_workdir = D$:/GitHub/Image_Processing/cmake-build-debug/
 
 build cmake_object_order_depends_target_Image_Processing: phony || CMakeFiles/Image_Processing.dir
 
-build CMakeFiles/Image_Processing.dir/CS213-2023-20220510-20220533-20220141-A1-Part1.cpp.obj: CXX_COMPILER__Image_Processing_unscanned_Debug D$:/GitHub/Image_Processing/CS213-2023-20220510-20220533-20220141-A1-Part1.cpp || cmake_object_order_depends_target_Image_Processing
-  DEP_FILE = CMakeFiles\Image_Processing.dir\CS213-2023-20220510-20220533-20220141-A1-Part1.cpp.obj.d
+build CMakeFiles/Image_Processing.dir/CS213-2023-S9-20220510-20220533-20220141-A1-FULL.cpp.obj: CXX_COMPILER__Image_Processing_unscanned_Debug D$:/GitHub/Image_Processing/CS213-2023-S9-20220510-20220533-20220141-A1-FULL.cpp || cmake_object_order_depends_target_Image_Processing
+  DEP_FILE = CMakeFiles\Image_Processing.dir\CS213-2023-S9-20220510-20220533-20220141-A1-FULL.cpp.obj.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
   INCLUDES = -ID:/GitHub/Image_Processing
   OBJECT_DIR = CMakeFiles\Image_Processing.dir
@@ -85,7 +85,7 @@ build CMakeFiles/Image_Processing.dir/RGB.cpp.obj: CXX_COMPILER__Image_Processin
 #############################################
 # Link the executable Image_Processing.exe
 
-build Image_Processing.exe: CXX_EXECUTABLE_LINKER__Image_Processing_Debug CMakeFiles/Image_Processing.dir/CS213-2023-20220510-20220533-20220141-A1-Part1.cpp.obj CMakeFiles/Image_Processing.dir/Functions.cpp.obj CMakeFiles/Image_Processing.dir/bmplib.cpp.obj CMakeFiles/Image_Processing.dir/RGB.cpp.obj
+build Image_Processing.exe: CXX_EXECUTABLE_LINKER__Image_Processing_Debug CMakeFiles/Image_Processing.dir/CS213-2023-S9-20220510-20220533-20220141-A1-FULL.cpp.obj CMakeFiles/Image_Processing.dir/Functions.cpp.obj CMakeFiles/Image_Processing.dir/bmplib.cpp.obj CMakeFiles/Image_Processing.dir/RGB.cpp.obj
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32
   OBJECT_DIR = CMakeFiles\Image_Processing.dir

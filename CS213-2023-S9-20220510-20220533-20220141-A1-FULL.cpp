@@ -16,30 +16,39 @@
 #include "RGB.h"
 using namespace std;
 char choice,type;
+void gs(){
+    loadImage();
+    displayChoices();
+    cin>>choice;
+    cin.ignore();
+    initChoice(choice);
+    while(choice!='0'){
+        displayChoices();
+        cin>>choice;
+        initChoice(choice);
+    }
+}
+void rgb(){
+    RGBloadImage();
+    RGBdisplayChoices();
+    cin>>choice;
+    cin.ignore();
+    RGBinitChoice(choice);
+    while(choice!='0'){
+        displayChoices();
+        cin>>choice;
+        RGBinitChoice(choice);
+    }
+}
+
 int main(){
     cout<<"Do you want to process a (G)S or (R)GB image?\n ";
     cin>>type;
     if(type=='g'||type=='G'){
-        loadImage();
-        displayChoices();
-        cin>>choice;
-        initChoice(choice);
-        while(choice!='0'){
-            displayChoices();
-            cin>>choice;
-            initChoice(choice);
-        }
+        gs();
     }
     else{
-        RGBloadImage();
-        RGBdisplayChoices();
-        cin>>choice;
-        RGBinitChoice(choice);
-        while(choice!='0'){
-            displayChoices();
-            cin>>choice;
-            RGBinitChoice(choice);
-        }
+        rgb();
     }
 
     return 0;

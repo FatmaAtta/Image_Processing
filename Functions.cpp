@@ -135,13 +135,13 @@ void loadImage(){
 }
 //funciton to save the image
 void saveImage(){
-    char basePath6[]="./Images/";
+    char basePath[]="./Images/";
     char newFileName[100];
     cout<<"Enter the new file name\n";
     cin>>newFileName;
-    strcat(basePath6,newFileName);
-    strcat(basePath6,".bmp");
-    writeGSBMP(basePath6, imageBMP); //saves the imageBMP in imageBMP 2d array
+    strcat(basePath,newFileName);
+    strcat(basePath,".bmp");
+    writeGSBMP(basePath, imageBMP); //saves the imageBMP in imageBMP 2d array
 }
 //function that copies the elements of a 3d array to the imageRGBBMP array
 void ToImage(unsigned char arr[SIZE][SIZE]){
@@ -208,13 +208,13 @@ void InvertImage(){
 }
 //function to merge 2 images together
 void MergeImage(){
-    char basePath4[]="./Images/";
+    char basePath[]="./Images/";
     char mergeName[100];
     cout<<"Please enter the name of imageBMP file to merge with:\n";
     cin>>mergeName;
-    strcat(basePath4,mergeName);
-    strcat(basePath4,".bmp");
-    readGSBMP(basePath4, mergeBMP);
+    strcat(basePath,mergeName);
+    strcat(basePath,".bmp");
+    readGSBMP(basePath, mergeBMP);
 
     for (int i = 0; i < SIZE; i++) {
         for (int j = 0; j < SIZE; j++) {
@@ -277,12 +277,10 @@ void RotateImage(int degree){
 }
 //function that detects the image edges
 void detectImageEdges(){
-    for(int i=0;i<SIZE;++i){
-        for(int j=0;j<SIZE ;++j){
-            if(imageBMP[i+1][j+1]-imageBMP[i][j]>45){
-                imageBMP[i][j]=0;
-            }
-            else if(imageBMP[i][j]-imageBMP[i+1][j+1]>45){
+    BlackWhite();
+    for(int i=0;i<SIZE-1;i++){
+        for(int j=0;j<SIZE-1;j++){
+            if(imageBMP[i+1][j+1]!=imageBMP[i][j]||imageBMP[i+1][j]!=imageBMP[i][j]||imageBMP[i][j+1]!=imageBMP[i][j]){
                 imageBMP[i][j]=0;
             }
             else{
@@ -415,7 +413,7 @@ void ShuffleImage(){
             else if(i>=(SIZE/2)&&j<(SIZE/2)){ //3rd quarter
                 switch(order[2]){
                     case 1:
-                        imageBMP[i][j]=q1[i - 128][j];
+                        imageBMP[i][j]=q1[i - 128][j]; //-128 because when i = 128, it just started the 3rd quarter from the rows, so we need the i to be 0
                         break;
                     case 2:
                         imageBMP[i][j]=q2[i - 128][j];
@@ -449,7 +447,7 @@ void ShuffleImage(){
 
 }
 //function that blurs the image
-void blurImage(){
+void    blurImage(){
 
     for (int i = 0; i < SIZE; ++i) {
         for (int j = 0; j < SIZE; ++j) {

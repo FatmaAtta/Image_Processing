@@ -135,13 +135,13 @@ void RGBloadImage(){
 }
 //funciton to save the image
 void RGBsaveImage(){
-    char basePath5[]="./Images/";
+    char basePath2[]="./Images/";
     char newFileName[100];
     cout<<"Enter the new file name\n";
     cin>>newFileName;
-    strcat(basePath5,newFileName);
-    strcat(basePath5,".bmp");
-    writeRGBBMP(basePath5,imageRGBBMP); //saves the image in imageRGBBMP 2d array
+    strcat(basePath2,newFileName);
+    strcat(basePath2,".bmp");
+    writeRGBBMP(basePath2,imageRGBBMP); //saves the image in imageRGBBMP 2d array
 }
 //function that copies the elements of a 3d array to the imageRGBBMP array
 void RGBToImage(unsigned char arr[SIZE][SIZE][3]){
@@ -230,13 +230,13 @@ void RGBInvertImage(){
 }
 //function to merge 2 images together
 void RGBMergeImage(){
-    char basePath3[]="./Images/";
+    char basePath2[]="./Images/";
     char mergeName[100];
     cout<<"Please enter the name of image file to merge with:\n";
     cin>>mergeName;
-    strcat(basePath3,mergeName);
-    strcat(basePath3,".bmp");
-    readRGBBMP(basePath3,mergeRGBBMP);
+    strcat(basePath2,mergeName);
+    strcat(basePath2,".bmp");
+    readRGBBMP(basePath2,mergeRGBBMP);
 
     for(int i=0;i<SIZE;i++){
         for(int j=0;j<SIZE;j++){
@@ -309,13 +309,11 @@ void RGBRotateImage(int degree){
 }
 //function that detects the image edges
 void RGBDetectImageEdges(){
-    for(int i=0;i<SIZE;i++){
-        for(int j=0;j<SIZE;j++){
+    RGBBlackWhite();
+    for(int i=0;i<SIZE-1;i++){
+        for(int j=0;j<SIZE-1;j++){
             for(int k=0;k<3;k++){
-                if(imageRGBBMP[i+1][j+1][k]-imageRGBBMP[i][j][k]>45){
-                    imageRGBBMP[i][j][k]=0;
-                }
-                else if(imageRGBBMP[i][j][k]-imageRGBBMP[i+1][j+1][k]>45){
+                if(imageRGBBMP[i+1][j+1][k]!=imageRGBBMP[i][j][k]||imageRGBBMP[i+1][j][k]!=imageRGBBMP[i][j][k]||imageRGBBMP[i][j+1][k]!=imageRGBBMP[i][j][k]){
                     imageRGBBMP[i][j][k]=0;
                 }
                 else{

@@ -3,7 +3,7 @@ project(Image_Processing)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Image_Processing CS213-2023-20220510-20220533-20220141-A1-Part1.cpp
+add_executable(Image_Processing CS213-2023-S9-20220510-20220533-20220141-A1-FULL.cpp
         Functions.cpp
         Functions.h
         bmplib.cpp bmplib.h
